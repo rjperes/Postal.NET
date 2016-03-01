@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25008.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postal.NET", "Postal.NET\Postal.NET.csproj", "{456727DD-ED7A-4AEE-834F-76CEC23EB065}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postal.NET.Test", "Postal.NET.Test\Postal.NET.Test.csproj", "{FB824619-F64A-4FD7-8F0F-AEE92B70BEC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostalRX.NET", "PostalRX.NET\PostalRX.NET.csproj", "{65C60B01-79CE-4914-83FA-64B48EFA386F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostalConventions.NET", "PostalConventions.NET\PostalConventions.NET.csproj", "{178B5B0F-96B5-492D-9825-35C4F69FBC48}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{456727DD-ED7A-4AEE-834F-76CEC23EB065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{456727DD-ED7A-4AEE-834F-76CEC23EB065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{456727DD-ED7A-4AEE-834F-76CEC23EB065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{456727DD-ED7A-4AEE-834F-76CEC23EB065}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB824619-F64A-4FD7-8F0F-AEE92B70BEC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB824619-F64A-4FD7-8F0F-AEE92B70BEC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB824619-F64A-4FD7-8F0F-AEE92B70BEC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB824619-F64A-4FD7-8F0F-AEE92B70BEC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65C60B01-79CE-4914-83FA-64B48EFA386F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65C60B01-79CE-4914-83FA-64B48EFA386F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65C60B01-79CE-4914-83FA-64B48EFA386F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65C60B01-79CE-4914-83FA-64B48EFA386F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{178B5B0F-96B5-492D-9825-35C4F69FBC48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{178B5B0F-96B5-492D-9825-35C4F69FBC48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{178B5B0F-96B5-492D-9825-35C4F69FBC48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{178B5B0F-96B5-492D-9825-35C4F69FBC48}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
