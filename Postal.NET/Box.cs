@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Postal.NET
 {
-    public class Box : IBox
+    public sealed class Box : IBox
     {
         class SubscriberId
         {
