@@ -17,9 +17,9 @@ namespace Postal.NET
             private readonly int hash;
             private readonly Func<Envelope, bool> condition;
 
-            public SubscriberId(Guid id, string channel, string topic, Func<Envelope, bool> condition)
+            public SubscriberId(string channel, string topic, Func<Envelope, bool> condition)
             {
-                this.id = id;
+                this.id = Guid.NewGuid();
                 this.channel = channel;
                 this.topic = topic;
                 this.condition = condition;
@@ -40,7 +40,7 @@ namespace Postal.NET
                     .Replace("*", ".*");
             }
 
-            public bool Matches(string channel, string topic)
+            public bool MatchesChannelAndTopic(string channel, string topic)
             {
                 var channelRegex = new Regex(this.Normalize(this.channel));
                 var topicRegex = new Regex(this.Normalize(this.topic));
@@ -66,7 +66,7 @@ namespace Postal.NET
                 return this.hash;
             }
 
-            public bool Passes(Envelope env)
+            public bool PassesCondition(Envelope env)
             {
                 return this.condition(env);
             }
@@ -107,7 +107,8 @@ namespace Postal.NET
                 condition = (env) => true;
             }
 
-            var id = new SubscriberId(Guid.NewGuid(), channel, topic, condition);
+            var id = new SubscriberId(channel, topic, condition);
+
             this.subscribers[id] = subscriber;
 
             return new DisposableSubscription(id, this.subscribers);
@@ -154,23 +155,23 @@ namespace Postal.NET
             }
         }
 
-        private bool Matches(SubscriberId id, string channel, string topic)
+        private bool MatchesChannelAndTopic(SubscriberId id, string channel, string topic)
         {
-            return id.Matches(channel, topic);
+            return id.MatchesChannelAndTopic(channel, topic);
+        }
+
+        private bool PassesCondition(SubscriberId id, Envelope env)
+        {
+            return id.PassesCondition(env);
         }
 
         private IEnumerable<Action<Envelope>> GetSubscribers(string channel, string topic, Envelope env)
         {
-            foreach (var subscriber in this.subscribers)
-            {
-                if (this.Matches(subscriber.Key, channel, topic) == true)
-                {
-                    if (subscriber.Key.Passes(env) == true)
-                    {
-                        yield return subscriber.Value;
-                    }
-                }
-            }
+            return this.subscribers
+                .Where(subscriber =>
+                    (this.MatchesChannelAndTopic(subscriber.Key, channel, topic) == true) &&
+                    (this.PassesCondition(subscriber.Key, env) == true))
+                .Select(subscriber => subscriber.Value);
         }
     }
 }
