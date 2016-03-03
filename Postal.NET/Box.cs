@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -75,9 +76,9 @@ namespace Postal.NET
         class DisposableSubscription : IDisposable
         {
             private readonly SubscriberId id;
-            private readonly IDictionary<SubscriberId, Action< Envelope>> subscribers;
+            private readonly IDictionary<SubscriberId, GCHandle> subscribers;
 
-            public DisposableSubscription(SubscriberId id, IDictionary<SubscriberId, Action<Envelope>> subscribers)
+            public DisposableSubscription(SubscriberId id, IDictionary<SubscriberId, GCHandle> subscribers)
             {
                 this.id = id;
                 this.subscribers = subscribers;
@@ -89,12 +90,14 @@ namespace Postal.NET
             }
         }
 
-        private readonly ConcurrentDictionary<SubscriberId, Action<Envelope>> subscribers = new ConcurrentDictionary<SubscriberId, Action<Envelope>>();
+        private readonly ConcurrentDictionary<SubscriberId, GCHandle> subscribers = new ConcurrentDictionary<SubscriberId, GCHandle>();
 
         public void Publish(string channel, string topic, object data)
         {
             this.Validate(channel, topic);
-            this.PublishAsync(channel, topic, data).GetAwaiter().GetResult();
+            this.PublishAsync(channel, topic, data)
+                .GetAwaiter()
+                .GetResult();
         }
 
         public IDisposable Subscribe(string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
@@ -109,7 +112,7 @@ namespace Postal.NET
 
             var id = new SubscriberId(channel, topic, condition);
 
-            this.subscribers[id] = subscriber;
+            this.subscribers[id] = GCHandle.Alloc(subscriber);
 
             return new DisposableSubscription(id, this.subscribers);
         }
@@ -169,9 +172,10 @@ namespace Postal.NET
         {
             return this.subscribers
                 .Where(subscriber =>
+                    (subscriber.Value.IsAllocated == true) &&
                     (this.MatchesChannelAndTopic(subscriber.Key, channel, topic) == true) &&
                     (this.PassesCondition(subscriber.Key, env) == true))
-                .Select(subscriber => subscriber.Value);
+                .Select(subscriber => (Action<Envelope>) subscriber.Value.Target);
         }
     }
 }
