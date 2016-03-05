@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Postal.NET;
 
@@ -77,6 +78,34 @@ namespace PostalConventions.NET
             var topic = this.FindTopic(data);
 
             await this.PublishAsync(channel, topic, data);
+        }
+
+        private int Distance(Type source, Type target)
+        {
+            if (target.IsAssignableFrom(source) == false)
+            {
+                return int.MaxValue;
+            }
+
+            var current = source;
+            var distance = 0;
+
+            while (current != typeof(object))
+            {
+                if (target == current)
+                {
+                    break;
+                }
+                else if (current.GetInterfaces().Intersect(target.GetInterfaces()).Any() == true)
+                {
+                    break;
+                }
+
+                current = current.GetTypeInfo().BaseType;
+                distance++;
+            }
+
+            return distance;
         }
 
         private string Find<T>(T data, Dictionary<Type, Func<object, string>> conventions)

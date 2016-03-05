@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25008.0
+VisualStudioVersion = 14.0.25029.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postal.NET", "Postal.NET\Postal.NET.csproj", "{456727DD-ED7A-4AEE-834F-76CEC23EB065}"
 EndProject
@@ -10,6 +10,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostalRX.NET", "PostalRX.NET\PostalRX.NET.csproj", "{65C60B01-79CE-4914-83FA-64B48EFA386F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostalConventions.NET", "PostalConventions.NET\PostalConventions.NET.csproj", "{178B5B0F-96B5-492D-9825-35C4F69FBC48}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{721EC7C2-D968-45DF-83C8-0334DBD111AE}"
+	ProjectSection(SolutionItems) = preProject
+		gfdl.txt = gfdl.txt
+		lgpl.txt = lgpl.txt
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

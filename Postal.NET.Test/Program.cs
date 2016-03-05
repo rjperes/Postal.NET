@@ -7,6 +7,15 @@ namespace Postal.NET.Test
 {
     class Program
     {
+        static void TestMultipleSubscriptions()
+        {
+            using (Postal.Box.Subscribe("channel", "topic", (env) => Console.WriteLine("Got: " + env.Data)))
+            using (Postal.Box.Subscribe("channel2", "topic2", (env) => Console.WriteLine("Didn't got: " + env.Data)))
+            {
+                Postal.Box.Publish("channel", "topic", "Hello, World!");
+            }
+       }
+
         static void TestDisposition()
         {
             using (Postal.Box.Subscribe("channel", "topic", (env) => Console.WriteLine(env.Data)))
@@ -87,12 +96,10 @@ namespace Postal.NET.Test
 
             using (observable as IDisposable)
             {
-                using (var observer = observable.Subscribe((env) => Console.WriteLine(env.Data), (ex) => { }, () => {}))
+                using (observable.Subscribe((env) => Console.WriteLine(env.Data), (ex) => { }, () => {}))
                 {
                     Postal.Box.Publish("channel", "topic", "Hello, World!");
                 }
-
-                Postal.Box.Publish("channel", "topic", "Does not show!");
             }
         }
 
@@ -112,6 +119,7 @@ namespace Postal.NET.Test
 
         static void Main(string[] args)
         {
+            TestMultipleSubscriptions();
             TestExtensions();
             TestConventions();
             TestFluent();

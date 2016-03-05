@@ -20,11 +20,14 @@ Postal.NET uses the concepts of **channels** and **topics**. We subscribe to a t
 
     Postal.Box.Publish("channel", "topic", "Does not appear because the subscription was disposed!");
 
-A message can either be sent synchronously or asynchronously.
+A message can either be sent synchronously or asynchronously. Subscriptions do not prevent garbage collection.
 You can find more examples in the [GitHub repository](https://github.com/rjperes/Postal.NET).
 
 ##Contacts
 If you see any value in this and wish to send me your comments, please do so through [GitHub](https://github.com/rjperes/Postal.NET). Questions and suggestions are welcome too!
+
+##Licenses
+This software is distributed under the terms of the Free Software Foundation Lesser GNU Public License (LGPL), version 2.1 (see lgpl.txt).
 
 ##Copyright
 You are free to use this as you wish, but I ask you to please send me a note about it.
