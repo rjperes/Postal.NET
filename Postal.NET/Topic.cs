@@ -35,5 +35,10 @@ namespace Postal.NET
         {
             await this.box.PublishAsync(this.channel, this.topic, data);
         }
+
+        public override string ToString()
+        {
+            return this.topic;
+        }
     }
 }

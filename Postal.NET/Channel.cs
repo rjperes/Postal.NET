@@ -1,4 +1,6 @@
-﻿namespace Postal.NET
+﻿using System;
+
+namespace Postal.NET
 {
     internal sealed class Channel : IChannel
     {
@@ -13,7 +15,17 @@
 
         public ITopic Topic(string topic)
         {
+            if (string.IsNullOrWhiteSpace(topic) == true)
+            {
+                throw new ArgumentNullException("topic");
+            }
+
             return new Topic(this.box, this.channel, topic);
+        }
+
+        public override string ToString()
+        {
+            return this.channel;
         }
     }
 }

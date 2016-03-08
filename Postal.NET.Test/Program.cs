@@ -1,6 +1,7 @@
 ﻿using PostalConventions.NET;
 using PostalRX.NET;
 using System;
+using System.Reactive.Linq;
 using System.Threading;
 
 namespace Postal.NET.Test
@@ -90,7 +91,7 @@ namespace Postal.NET.Test
             }
         }
 
-        static void TestObserver()
+        static void TestReactive()
         {
             var observable = Postal.Box.Observe("channel", "topic");
 
@@ -99,6 +100,23 @@ namespace Postal.NET.Test
                 using (observable.Subscribe((env) => Console.WriteLine(env.Data), (ex) => { }, () => {}))
                 {
                     Postal.Box.Publish("channel", "topic", "Hello, World!");
+                }
+            }
+        }
+
+        static void TestReactiveBuffered()
+        {
+            var observable = Postal.Box.Observe("channel", "topic");
+
+            using (observable as IDisposable)
+            {
+                using (observable.Buffer(5).Subscribe((env) => Console.WriteLine("Got: " + env.Count), (ex) => { }, () => { }))
+                {
+                    Postal.Box.Publish("channel", "topic", "Hello, World 1!");
+                    Postal.Box.Publish("channel", "topic", "Hello, World 2!");
+                    Postal.Box.Publish("channel", "topic", "Hello, World 3!");
+                    Postal.Box.Publish("channel", "topic", "Hello, World 4!");
+                    Postal.Box.Publish("channel", "topic", "Hello, World 5!");
                 }
             }
         }
@@ -119,11 +137,13 @@ namespace Postal.NET.Test
 
         static void Main(string[] args)
         {
+            //These are not unit tests, just samples of how to use Postal.NET
             TestMultipleSubscriptions();
             TestExtensions();
             TestConventions();
             TestFluent();
-            TestObserver();
+            TestReactive();
+            TestReactiveBuffered();
             TestAsync();
             TestFilter();
             TestDisposition();

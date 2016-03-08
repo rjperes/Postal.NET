@@ -11,6 +11,11 @@ namespace Postal.NET
 
         public static IChannel Channel(this IBox box, string channel)
         {
+            if (string.IsNullOrWhiteSpace(channel) == true)
+            {
+                throw new ArgumentNullException("channel");
+            }
+
             return new Channel(box, channel);
         }
 
