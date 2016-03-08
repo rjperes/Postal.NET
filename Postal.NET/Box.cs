@@ -43,8 +43,8 @@ namespace Postal.NET
 
             public bool MatchesChannelAndTopic(string channel, string topic)
             {
-                var channelRegex = new Regex(this.Normalize(this.channel));
-                var topicRegex = new Regex(this.Normalize(this.topic));
+                var channelRegex = new Regex("^" + this.Normalize(this.channel) + "$");
+                var topicRegex = new Regex("^" + this.Normalize(this.topic) + "$");
 
                 return channelRegex.IsMatch(channel) == true
                        && topicRegex.IsMatch(topic);
