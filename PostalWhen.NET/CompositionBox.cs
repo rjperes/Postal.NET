@@ -45,7 +45,6 @@ namespace PostalWhen.NET
         }
 
         private readonly IBox box;
-        private readonly Guid id = Guid.NewGuid();
         private readonly List<Condition> conditions = new List<Condition>();
         private readonly IDisposable subscription;
         private Action<Envelope> subscriber;
@@ -55,6 +54,11 @@ namespace PostalWhen.NET
 
         public CompositionBox(IBox box)
         {
+            if (box == null)
+            {
+                throw new ArgumentNullException("box");
+            }
+
             this.box = box;
             this.subscription = this.box.Subscribe("*", "*", this.OnReceive);
         }
