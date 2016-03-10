@@ -3,6 +3,7 @@ using PostalRX.NET;
 using System;
 using System.Reactive.Linq;
 using System.Threading;
+using PostalWhen.NET;
 
 namespace Postal.NET.Test
 {
@@ -135,9 +136,70 @@ namespace Postal.NET.Test
             }
         }
 
+        static void TestComposition()
+        {
+            using (Postal
+                .Box
+                .When("channel1", "topic1")
+                .And("channel2", "topic2")
+                .Subscribe(env => Console.WriteLine(env.Data)))
+            {
+                Postal.Box.Publish("channel1", "topic1", "Will not show");
+                Postal.Box.Publish("channel2", "topic2", "Hello, World!");
+            }
+        }
+
+        static void TestTimedComposition()
+        {
+            using (Postal
+                .Box
+                .When("channel1", "topic1")
+                .And("channel2", "topic2")
+                .InTime(TimeSpan.FromSeconds(5))
+                .Subscribe(env => Console.WriteLine(env.Data)))
+            {
+                Postal.Box.Publish("channel1", "topic1", "Will not show");
+
+                Thread.Sleep(6 * 1000);
+
+                Postal.Box.Publish("channel2", "topic2", "Will not show too");
+            }
+        }
+
+        static void TestInterruptedComposition()
+        {
+            using (Postal
+                .Box
+                .When("channel1", "topic1")
+                .And("channel2", "topic2")
+                .Subscribe(env => Console.WriteLine(env.Data)))
+            {
+                Postal.Box.Publish("channel1", "topic1", "Will not show");
+                Postal.Box.Publish("channel3", "topic3", "Will not show");
+                Postal.Box.Publish("channel2", "topic2", "Will not show");
+            }
+        }
+
+        static void TestConditionalComposition()
+        {
+            using (Postal
+                .Box
+                .When("channel1", "topic1", env => env.Data is int)
+                .And("channel2", "topic2")
+                .Subscribe(env => Console.WriteLine(env.Data)))
+            {
+                Postal.Box.Publish("channel1", "topic1", 1);
+                Postal.Box.Publish("channel2", "topic2", "Hello, World!");
+            }
+        }
+
         static void Main(string[] args)
         {
             //These are not unit tests, just samples of how to use Postal.NET
+            TestConditionalComposition();
+            TestInterruptedComposition();
+            TestTimedComposition();
+            TestComposition();
             TestMultipleSubscriptions();
             TestExtensions();
             TestConventions();

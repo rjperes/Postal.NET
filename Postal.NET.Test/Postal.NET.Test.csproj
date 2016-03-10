@@ -82,6 +82,10 @@
       <Project>{65c60b01-79ce-4914-83fa-64b48efa386f}</Project>
       <Name>PostalRX.NET</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PostalWhen.NET\PostalWhen.NET.csproj">
+      <Project>{8b876119-df95-4b31-a4be-6a677dfba72e}</Project>
+      <Name>PostalWhen.NET</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

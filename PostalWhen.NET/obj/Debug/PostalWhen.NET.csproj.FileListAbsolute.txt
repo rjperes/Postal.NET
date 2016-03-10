@@ -1,0 +1,7 @@
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalWhen.NET\obj\Debug\PostalWhen.NET.csprojResolveAssemblyReference.cache
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalWhen.NET\bin\Debug\PostalWhen.NET.dll
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalWhen.NET\bin\Debug\PostalWhen.NET.pdb
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalWhen.NET\bin\Debug\Postal.NET.dll
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalWhen.NET\bin\Debug\Postal.NET.pdb
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalWhen.NET\obj\Debug\PostalWhen.NET.dll
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalWhen.NET\obj\Debug\PostalWhen.NET.pdb
