@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace Postal.NET
 {
@@ -15,7 +14,7 @@ namespace Postal.NET
 
         public static void MultiPublish(this IBox box, string channel, string topic, Func<object> factory)
         {
-            for (var data = factory(); data != null;)
+            for (var data = factory(); data != null; data = factory())
             {
                 box.Publish(channel, topic, data);
             }
@@ -43,12 +42,12 @@ namespace Postal.NET
 
         public static IChannel AnyChannel(this IBox box)
         {
-            return Channel(box, "*");
+            return Channel(box, Postal.All);
         }
 
         public static ITopic AnyTopic(this IChannel channel)
         {
-            return channel.Topic("*");
+            return channel.Topic(Postal.All);
         }
     }
 }

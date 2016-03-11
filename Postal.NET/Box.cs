@@ -13,41 +13,29 @@ namespace Postal.NET
         class SubscriberId
         {
             private readonly Guid id;
-            private readonly string channel;
-            private readonly string topic;
-            private readonly int hash;
+            private readonly Regex channelRegex;
+            private readonly Regex topicRegex;
             private readonly Func<Envelope, bool> condition;
 
             public SubscriberId(string channel, string topic, Func<Envelope, bool> condition)
             {
                 this.id = Guid.NewGuid();
-                this.channel = channel;
-                this.topic = topic;
+                this.channelRegex = new Regex("^" + this.Normalize(channel) + "$");
+                this.topicRegex = new Regex("^" + this.Normalize(topic) + "$");
                 this.condition = condition;
-
-                unchecked
-                {
-                    this.hash = 13;
-                    this.hash = (this.hash * 17) ^ this.id.GetHashCode();
-                    this.hash = (this.hash * 17) ^ this.channel.GetHashCode();
-                    this.hash = (this.hash * 17) ^ this.topic.GetHashCode();
-                }
             }
 
             private string Normalize(string str)
             {
                 return str
                     .Replace(".", "\\.")
-                    .Replace("*", ".*");
+                    .Replace(Postal.All, "." + Postal.All);
             }
 
             public bool MatchesChannelAndTopic(string channel, string topic)
             {
-                var channelRegex = new Regex("^" + this.Normalize(this.channel) + "$");
-                var topicRegex = new Regex("^" + this.Normalize(this.topic) + "$");
-
-                return channelRegex.IsMatch(channel) == true
-                       && topicRegex.IsMatch(topic);
+                return this.channelRegex.IsMatch(channel) == true
+                       && this.topicRegex.IsMatch(topic);
             }
 
             public override bool Equals(object obj)
@@ -59,12 +47,12 @@ namespace Postal.NET
                     return false;
                 }
 
-                return (other.id == this.id) && (other.channel == this.channel) && (other.topic == this.topic);
+                return other.id == this.id;
             }
 
             public override int GetHashCode()
             {
-                return this.hash;
+                return this.id.GetHashCode();
             }
 
             public bool PassesCondition(Envelope env)
