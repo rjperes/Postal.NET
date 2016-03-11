@@ -23,6 +23,21 @@ Postal.NET uses the concepts of **channels** and **topics**. We subscribe to a t
 A message can either be sent synchronously or asynchronously. Subscriptions do not prevent garbage collection.
 You can find more examples in the [GitHub repository](https://github.com/rjperes/Postal.NET).
 
+##Installation
+You can either:
+
+- Clone from GitHub: [http://github.com/rjperes/Postal.NET](http://github.com/rjperes/Postal.NET)
+- Install via NuGet: [https://www.nuget.org/packages/Postal.NET](https://www.nuget.org/packages/Postal.NET).
+
+##Other Projects
+
+Other projects you can find in the GitHub repository are:
+
+- PostalConventions.NET: conventions for channels and topics
+- PostalRX.NET: Reactive Extensions (RX.NET) adapter
+- PostalWhen.NET: composition of events
+- Postal.NET.Test: working examples
+
 ##Contacts
 If you see any value in this and wish to send me your comments, please do so through [GitHub](https://github.com/rjperes/Postal.NET). Questions and suggestions are welcome too!
 
