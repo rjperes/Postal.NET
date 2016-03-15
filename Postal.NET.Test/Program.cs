@@ -1,6 +1,8 @@
 ﻿using PostalConventions.NET;
 using PostalRX.NET;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
 using PostalWhen.NET;
@@ -16,7 +18,7 @@ namespace Postal.NET.Test
             {
                 Postal.Box.Publish("channel", "topic", "Hello, World!");
             }
-       }
+        }
 
         static void TestDisposition()
         {
@@ -62,7 +64,8 @@ namespace Postal.NET.Test
         static void TestAsync()
         {
             using (var evt = new ManualResetEvent(false))
-            using (Postal.Box.Subscribe("channel", "topic", (env) => {
+            using (Postal.Box.Subscribe("channel", "topic", (env) =>
+            {
                 Console.WriteLine(env.Data);
                 evt.Set();
             }))
@@ -98,7 +101,7 @@ namespace Postal.NET.Test
 
             using (observable as IDisposable)
             {
-                using (observable.Subscribe((env) => Console.WriteLine(env.Data), (ex) => { }, () => {}))
+                using (observable.Subscribe((env) => Console.WriteLine(env.Data), (ex) => { }, () => { }))
                 {
                     Postal.Box.Publish("channel", "topic", "Hello, World!");
                 }

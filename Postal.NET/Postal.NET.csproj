@@ -39,12 +39,14 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicSubscriberStore.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="BoxExtensions.cs" />
     <Compile Include="Channel.cs" />
     <Compile Include="Envelope.cs" />
     <Compile Include="IBox.cs" />
     <Compile Include="IChannel.cs" />
+    <Compile Include="ISubscriberStore.cs" />
     <Compile Include="ITopic.cs" />
     <Compile Include="Postal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
