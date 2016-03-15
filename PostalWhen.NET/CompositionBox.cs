@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Postal = Postal.NET.Postal;
 
 namespace PostalWhen.NET
 {
@@ -30,7 +31,7 @@ namespace PostalWhen.NET
             {
                 return str
                     .Replace(".", "\\.")
-                    .Replace("*", ".*");
+                    .Replace(global::Postal.NET.Postal.All, "." + global::Postal.NET.Postal.All);
             }
 
             public bool MatchesChannelAndTopic(Envelope env)
@@ -60,7 +61,7 @@ namespace PostalWhen.NET
             }
 
             this.box = box;
-            this.subscription = this.box.Subscribe("*", "*", this.OnReceive);
+            this.subscription = this.box.Subscribe(global::Postal.NET.Postal.All, global::Postal.NET.Postal.All, this.OnReceive);
         }
 
         private void OnReceive(Envelope env)

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Postal.NET;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Postal.NET;
 
 namespace PostalConventions.NET
 {
@@ -47,13 +47,7 @@ namespace PostalConventions.NET
 
         public IDisposable Subscribe<T>(Action<T> subscriber)
         {
-            if ((this.channelConventions.ContainsKey(typeof (T)) == false) ||
-                (this.topicConventions.ContainsKey(typeof (T)) == false))
-            {
-                throw new InvalidOperationException(string.Format("No convention for data type {0}", typeof(T)));
-            }
-
-            var subscription = this.box.Subscribe("*", "*", (env) =>
+            var subscription = this.box.Subscribe(global::Postal.NET.Postal.All, global::Postal.NET.Postal.All, (env) =>
             {
                 if (env.Data is T)
                 {
@@ -87,16 +81,17 @@ namespace PostalConventions.NET
                 return int.MaxValue;
             }
 
+            if (source.GetTypeInfo().IsInterface == true)
+            {
+                return int.MaxValue / 2;
+            }
+
             var current = source;
             var distance = 0;
 
             while (current != typeof(object))
             {
                 if (target == current)
-                {
-                    break;
-                }
-                else if (current.GetInterfaces().Intersect(target.GetInterfaces()).Any() == true)
                 {
                     break;
                 }
@@ -110,9 +105,13 @@ namespace PostalConventions.NET
 
         private string Find<T>(T data, Dictionary<Type, Func<object, string>> conventions)
         {
-            Func<object, string> convention;
+            var convention = (from c in conventions
+                let d = this.Distance(c.Key, typeof (T))
+                where d < int.MaxValue
+                orderby d
+                select c.Value).FirstOrDefault();
 
-            if (conventions.TryGetValue(typeof (T), out convention) == false)
+            if (convention == null)
             {
                 throw new InvalidOperationException(string.Format("No convention for data type {0}", typeof(T)));
             }
