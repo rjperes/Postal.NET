@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Postal.NET
 {
-    public sealed class BasicSubscriberStore : ISubscriberStore
+    public class BasicSubscriberStore : ISubscriberStore
     {
-        class SubscriberId
+        protected class SubscriberId
         {
             private readonly Guid id;
             private readonly Regex channelRegex;
@@ -82,14 +82,14 @@ namespace Postal.NET
 
         private readonly ConcurrentDictionary<SubscriberId, GCHandle> subscribers = new ConcurrentDictionary<SubscriberId, GCHandle>();
 
-        public IDisposable Subscribe(string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
+        public virtual IDisposable Subscribe(string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
         {
             var id = new SubscriberId(channel, topic, condition);
             this.subscribers[id] = GCHandle.Alloc(subscriber, GCHandleType.Weak);
             return new DisposableSubscription(id, this.subscribers);
         }
 
-        private IEnumerable<Action<Envelope>> GetSubscribers(Envelope env)
+        protected virtual IEnumerable<Action<Envelope>> GetSubscribers(Envelope env)
         {
             return this.subscribers
                 .AsParallel()
@@ -100,7 +100,7 @@ namespace Postal.NET
                 .Select(subscriber => (Action<Envelope>)subscriber.Value.Target);
         }
 
-        public async Task PublishAsync(Envelope env)
+        public virtual async Task PublishAsync(Envelope env)
         {
             foreach (var subscriber in this.GetSubscribers(env).AsParallel())
             {
@@ -108,17 +108,17 @@ namespace Postal.NET
             }
         }
 
-        public void Publish(Envelope env)
+        public virtual void Publish(Envelope env)
         {
             this.PublishAsync(env).GetAwaiter().GetResult();
         }
 
-        private bool MatchesChannelAndTopic(SubscriberId id, string channel, string topic)
+        protected virtual bool MatchesChannelAndTopic(SubscriberId id, string channel, string topic)
         {
             return id.MatchesChannelAndTopic(channel, topic);
         }
 
-        private bool PassesCondition(SubscriberId id, Envelope env)
+        protected virtual bool PassesCondition(SubscriberId id, Envelope env)
         {
             return id.PassesCondition(env);
         }
