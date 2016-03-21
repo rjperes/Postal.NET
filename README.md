@@ -20,8 +20,16 @@ Postal.NET uses the concepts of **channels** and **topics**. We subscribe to a t
 
     Postal.Box.Publish("channel", "topic", "Does not appear because the subscription was disposed!");
 
-A message can either be sent synchronously or asynchronously. Subscriptions do not prevent garbage collection.
-You can find more examples in the [GitHub repository](https://github.com/rjperes/Postal.NET).
+A message can either be sent synchronously or asynchronously and if there are subscribers to it, it will raise an event (one or more subscriptions being triggered). Subscriptions do not prevent the garbage collection of the subscriber.
+There are some handy extensions for common tasks:
+
+- **Once**: only handles an event once, then unsubcribes from it
+- **MultiPublish**: publishes a number of events at once
+
+The interface is decoupled from the actual implementation and it can be easily switched.
+
+You can find more examples in the [GitHub repository](https://github.com/rjperes/Postal.NET) in the **Postal.NET.Test** project.
+
 
 ##Installation
 You can either:
@@ -33,10 +41,10 @@ You can either:
 
 Other projects you can find in the GitHub repository are:
 
-- PostalConventions.NET: conventions for channels and topics
-- PostalRX.NET: Reactive Extensions (RX.NET) adapter
-- PostalWhen.NET: composition of events
-- Postal.NET.Test: working examples
+- **PostalConventions.NET**: conventions for channels and topics
+- **PostalRX.NET**: Reactive Extensions ([RX.NET](https://github.com/Reactive-Extensions/Rx.NET)) adapter
+- **PostalWhen.NET**: composition of events (e.g., "do this when you receive this and that")
+- **Postal.NET.Test**: working examples
 
 ##Contacts
 If you see any value in this and wish to send me your comments, please do so through [GitHub](https://github.com/rjperes/Postal.NET). Questions and suggestions are welcome too!

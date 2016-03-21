@@ -44,16 +44,27 @@ namespace PostalRX.NET
             private readonly LinkedList<IObserver<Envelope>> subscribers = new LinkedList<IObserver<Envelope>>();
 
             private readonly IBox box;
-            private readonly string channel;
-            private readonly string topic;
             private IDisposable subscription;
+
+            public PostalObservable(ITopic topic)
+            {
+                if (topic == null)
+                {
+                    throw new ArgumentNullException("topic");
+                }
+
+                this.subscription = topic.Subscribe(this.Notification);
+            }
 
             public PostalObservable(IBox box, string channel, string topic)
             {
+                if (box == null)
+                {
+                    throw new ArgumentNullException("box");
+                }
+
                 this.box = box;
-                this.channel = channel;
-                this.topic = topic;
-                this.subscription = this.box.Subscribe(this.channel, this.topic, this.Notification);
+                this.subscription = this.box.Subscribe(channel, topic, this.Notification);
             }
 
             private void Notification(Envelope env)
@@ -66,6 +77,11 @@ namespace PostalRX.NET
 
             public IDisposable Subscribe(IObserver<Envelope> observer)
             {
+                if (observer == null)
+                {
+                    throw new ArgumentNullException("observer");
+                }
+
                 subscribers.AddLast(observer);
 
                 return new DisposableObserver(observer, this.subscribers);
@@ -81,6 +97,11 @@ namespace PostalRX.NET
                 this.subscribers.Clear();
                 this.subscription.Dispose();
             }
+        }
+
+        public static IObservable<Envelope> Observe(ITopic topic)
+        {
+            return new PostalObservable(topic);
         }
 
         public static IObservable<Envelope> Observe(this IBox box, string channel, string topic)
