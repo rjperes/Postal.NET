@@ -48,6 +48,16 @@ namespace Postal.NET
             {
                 throw new ArgumentNullException("topic");
             }
+
+            if (channel.Contains(",") == true)
+            {
+                throw new ArgumentException("Channel names cannot contain commas", "channel");
+            }
+
+            if (topic.Contains(",") == true)
+            {
+                throw new ArgumentException("Topic names cannot contain commas", "topic");
+            }
         }
 
         private void Validate(Action<Envelope> subscriber)

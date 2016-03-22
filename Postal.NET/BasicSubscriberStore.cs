@@ -10,7 +10,7 @@ namespace Postal.NET
 {
     public class BasicSubscriberStore : ISubscriberStore
     {
-        protected class SubscriberId
+        class SubscriberId
         {
             private readonly Guid id;
             private readonly Regex channelRegex;
@@ -82,9 +82,15 @@ namespace Postal.NET
 
         private readonly ConcurrentDictionary<SubscriberId, GCHandle> subscribers = new ConcurrentDictionary<SubscriberId, GCHandle>();
 
-        public virtual IDisposable Subscribe(string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
+        protected virtual object CreateId(string channel, string topic, Func<Envelope, bool> condition)
         {
             var id = new SubscriberId(channel, topic, condition);
+            return id;
+        }
+
+        public virtual IDisposable Subscribe(string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
+        {
+            var id = this.CreateId(channel, topic, condition) as SubscriberId;
             this.subscribers[id] = GCHandle.Alloc(subscriber, GCHandleType.Weak);
             return new DisposableSubscription(id, this.subscribers);
         }
@@ -113,14 +119,14 @@ namespace Postal.NET
             this.PublishAsync(env).GetAwaiter().GetResult();
         }
 
-        protected virtual bool MatchesChannelAndTopic(SubscriberId id, string channel, string topic)
+        protected virtual bool MatchesChannelAndTopic(object id, string channel, string topic)
         {
-            return id.MatchesChannelAndTopic(channel, topic);
+            return (id as SubscriberId).MatchesChannelAndTopic(channel, topic);
         }
 
-        protected virtual bool PassesCondition(SubscriberId id, Envelope env)
+        protected virtual bool PassesCondition(object id, Envelope env)
         {
-            return id.PassesCondition(env);
+            return (id as SubscriberId).PassesCondition(env);
         }
     }
 }

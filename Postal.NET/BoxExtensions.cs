@@ -1,9 +1,49 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Postal.NET
 {
     public static class BoxExtensions
     {
+        class MultiSubscription : IDisposable
+        {
+            private readonly IEnumerable<IDisposable> subscriptions;
+
+            public MultiSubscription(IEnumerable<IDisposable> subscriptions)
+            {
+                this.subscriptions = subscriptions;
+            }
+
+            public void Dispose()
+            {
+                foreach (var subscription in this.subscriptions)
+                {
+                    subscription.Dispose();
+                }
+            }
+        }
+
+        public static IDisposable SubscribeMultiple(this IBox box, string channels, string topics, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
+        {
+            var subscriptions = new List<IDisposable>();
+
+            foreach (var channel in channels.Split(',').Select(x => x.Trim()).Distinct())
+            {
+                foreach (var topic in topics.Split(',').Select(x => x.Trim()).Distinct())
+                {
+                    subscriptions.Add(box.Subscribe(channel, topic, subscriber, condition));
+                }
+            }
+
+            if (subscriptions.Any() == false)
+            {
+                throw new InvalidOperationException("No subscriptions supplied");
+            }
+
+            return new MultiSubscription(subscriptions);
+        }
+
         public static void Once(this IBox box, string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
         {
             if (box == null)

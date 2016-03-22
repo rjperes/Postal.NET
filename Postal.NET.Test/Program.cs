@@ -11,6 +11,16 @@ namespace Postal.NET.Test
     {
         static void TestMultipleSubscriptions()
         {
+            using (Postal.Box.SubscribeMultiple("channel", "topic1, topic2", (env) => Console.WriteLine(env.Data)))
+            {
+                Postal.Box.Publish("channel", "topic1", "Hello, World!");
+            }
+
+            Postal.Box.Publish("channel", "topic1", "Does not appear!");
+        }
+
+        static void TestDifferentSubscriptions()
+        {
             using (Postal.Box.Subscribe("channel", "topic", (env) => Console.WriteLine("Got: " + env.Data)))
             using (Postal.Box.Subscribe("channel2", "topic2", (env) => Console.WriteLine("Didn't got: " + env.Data)))
             {
@@ -197,11 +207,12 @@ namespace Postal.NET.Test
         static void Main(string[] args)
         {
             //These are not unit tests, just samples of how to use Postal.NET
+            TestMultipleSubscriptions();
             TestConditionalComposition();
             TestInterruptedComposition();
             TestTimedComposition();
             TestComposition();
-            TestMultipleSubscriptions();
+            TestDifferentSubscriptions();
             TestExtensions();
             TestConventions();
             TestFluent();
