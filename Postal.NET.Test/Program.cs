@@ -1,14 +1,28 @@
 ﻿using PostalConventions.NET;
 using PostalRX.NET;
 using System;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
 using PostalWhen.NET;
+using PostalRequestResponse.NET;
 
 namespace Postal.NET.Test
 {
     class Program
     {
+        static void TestRequestResponse()
+        {
+            using (Postal.Box.Subscribe("channel", "topic", (env) =>
+            {
+                var data = env.Unwrap<string>();
+                Postal.Box.Reply(env, string.Join(string.Empty, data.Reverse()));
+            }))
+            {
+                var response = Postal.Box.Request("channel", "topic", "Hello, World!");
+            }
+        }
+
         static void TestMultipleSubscriptions()
         {
             using (Postal.Box.SubscribeMultiple("channel", "topic1, topic2", (env) => Console.WriteLine(env.Data)))
@@ -207,6 +221,7 @@ namespace Postal.NET.Test
         static void Main(string[] args)
         {
             //These are not unit tests, just samples of how to use Postal.NET
+            TestRequestResponse();
             TestMultipleSubscriptions();
             TestConditionalComposition();
             TestInterruptedComposition();

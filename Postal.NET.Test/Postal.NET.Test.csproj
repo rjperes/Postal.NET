@@ -78,6 +78,10 @@
       <Project>{178b5b0f-96b5-492d-9825-35c4f69fbc48}</Project>
       <Name>PostalConventions.NET</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PostalRequestResponse.NET\PostalRequestResponse.NET.csproj">
+      <Project>{50a1510f-e482-46f1-95e0-548c33a073e3}</Project>
+      <Name>PostalRequestResponse.NET</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PostalRX.NET\PostalRX.NET.csproj">
       <Project>{65c60b01-79ce-4914-83fa-64b48efa386f}</Project>
       <Name>PostalRX.NET</Name>

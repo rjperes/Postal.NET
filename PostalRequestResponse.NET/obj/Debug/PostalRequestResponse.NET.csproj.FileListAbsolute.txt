@@ -1,0 +1,7 @@
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalRequestResponse.NET\bin\Debug\PostalRequestResponse.NET.dll
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalRequestResponse.NET\bin\Debug\PostalRequestResponse.NET.pdb
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalRequestResponse.NET\bin\Debug\Postal.NET.dll
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalRequestResponse.NET\bin\Debug\Postal.NET.pdb
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalRequestResponse.NET\obj\Debug\PostalRequestResponse.NET.csprojResolveAssemblyReference.cache
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalRequestResponse.NET\obj\Debug\PostalRequestResponse.NET.dll
+C:\Users\rperes\OneDrive\Projects\Postal.NET\PostalRequestResponse.NET\obj\Debug\PostalRequestResponse.NET.pdb

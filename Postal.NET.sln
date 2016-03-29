@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25029.0
+VisualStudioVersion = 14.0.25115.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postal.NET", "Postal.NET\Postal.NET.csproj", "{456727DD-ED7A-4AEE-834F-76CEC23EB065}"
 EndProject
@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostalWhen.NET", "PostalWhen.NET\PostalWhen.NET.csproj", "{8B876119-DF95-4B31-A4BE-6A677DFBA72E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostalRequestResponse.NET", "PostalRequestResponse.NET\PostalRequestResponse.NET.csproj", "{50A1510F-E482-46F1-95E0-548C33A073E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,10 @@ Global
 		{8B876119-DF95-4B31-A4BE-6A677DFBA72E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B876119-DF95-4B31-A4BE-6A677DFBA72E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B876119-DF95-4B31-A4BE-6A677DFBA72E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50A1510F-E482-46F1-95E0-548C33A073E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50A1510F-E482-46F1-95E0-548C33A073E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50A1510F-E482-46F1-95E0-548C33A073E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50A1510F-E482-46F1-95E0-548C33A073E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
