@@ -1,4 +1,4 @@
-﻿#Postal.NET
+#Postal.NET
 
 ##Introduction
 Postal.NET is a .NET portable library for writing decoupled applications. It is loosely based upon the [Postal.js](https://github.com/postaljs) JavaScript library and follows the [Domain Events](http://martinfowler.com/eaaDev/DomainEvent.html) and [Pub/Sub](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) patterns.
