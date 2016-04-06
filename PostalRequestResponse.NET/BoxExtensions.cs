@@ -6,6 +6,16 @@ namespace PostalRequestResponse.NET
 {
     public static class BoxExtensions
     {
+        public static IDisposable SubscribeRequestResponse(this IBox box, string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
+        {
+            if (condition == null)
+            {
+                condition = (env) => true;
+            }
+
+            return box.Subscribe(channel, topic, subscriber, (env) => env.IsRequestResponse() && condition(env));
+        }
+
         public static bool IsRequestResponse(this Envelope env)
         {
             return env.Data is IRequestResponseData;
