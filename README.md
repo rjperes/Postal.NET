@@ -45,10 +45,10 @@ You can either:
 
 Other projects you can find in the GitHub repository are:
 
-- **PostalConventions.NET**: conventions for channels and topics
-- **PostalRX.NET**: Reactive Extensions ([RX.NET](https://github.com/Reactive-Extensions/Rx.NET)) adapter
-- **PostalWhen.NET**: composition of events (e.g., "do this when you receive this and that")
-- **PostalRequestResponse.NET**: implementation of request-response pattern
+- **PostalConventions.NET**: conventions for channels and topics [Nuget](https://www.nuget.org/packages/PostalConventions.NET)
+- **PostalRX.NET**: Reactive Extensions ([RX.NET](https://github.com/Reactive-Extensions/Rx.NET)) adapter [Nuget](https://www.nuget.org/packages/PostalRX.NET)
+- **PostalWhen.NET**: composition of events (e.g., "do this when you receive this and that") [Nuget](https://www.nuget.org/packages/PostalWhen.NET)
+- **PostalRequestResponse.NET**: implementation of request-response pattern [Nuget](https://www.nuget.org/packages/PostalRequestResponse.NET)
 - **Postal.NET.Test**: working examples
 
 ##Contacts
