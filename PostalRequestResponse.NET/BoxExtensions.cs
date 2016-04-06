@@ -6,9 +6,14 @@ namespace PostalRequestResponse.NET
 {
     public static class BoxExtensions
     {
+        public static bool IsRequestResponse(this Envelope env)
+        {
+            return env.Data is IRequestResponseData;
+        }
+
         public static T Unwrap<T>(this Envelope env)
         {
-            var wrapped = (env.Data is IRequestResponseData) ? (env.Data as IRequestResponseData).Data : env.Data;
+            var wrapped = env.IsRequestResponse() ? (env.Data as IRequestResponseData).Data : env.Data;
             return (T) wrapped;
         }
 

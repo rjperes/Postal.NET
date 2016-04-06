@@ -15,8 +15,11 @@ namespace Postal.NET.Test
         {
             using (Postal.Box.Subscribe("channel", "topic", (env) =>
             {
-                var data = env.Unwrap<string>();
-                Postal.Box.Reply(env, string.Join(string.Empty, data.Reverse()));
+                if (env.IsRequestResponse() == true)
+                {
+                    var data = env.Unwrap<string>();
+                    Postal.Box.Reply(env, string.Join(string.Empty, data.Reverse()));
+                }
             }))
             {
                 var response = Postal.Box.Request("channel", "topic", "Hello, World!");
