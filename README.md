@@ -39,16 +39,16 @@ You can find more examples in the [GitHub repository](https://github.com/rjperes
 You can either:
 
 - Clone from GitHub: [http://github.com/rjperes/Postal.NET](http://github.com/rjperes/Postal.NET)
-- Install via NuGet: [https://www.nuget.org/packages/Postal.NET](https://www.nuget.org/packages/Postal.NET).
+- Install via Nuget: [https://www.nuget.org/packages/Postal.NET](https://www.nuget.org/packages/Postal.NET).
 
 ##Other Projects
 
-Other projects you can find in the GitHub repository are:
+Other projects you can find in the GitHub repository and in Nuget are:
 
-- **PostalConventions.NET**: conventions for channels and topics [Nuget](https://www.nuget.org/packages/PostalConventions.NET)
-- **PostalRX.NET**: Reactive Extensions ([RX.NET](https://github.com/Reactive-Extensions/Rx.NET)) adapter [Nuget](https://www.nuget.org/packages/PostalRX.NET)
-- **PostalWhen.NET**: composition of events (e.g., "do this when you receive this and that") [Nuget](https://www.nuget.org/packages/PostalWhen.NET)
-- **PostalRequestResponse.NET**: implementation of request-response pattern [Nuget](https://www.nuget.org/packages/PostalRequestResponse.NET)
+- **PostalConventions.NET**: conventions for channels and topics ([Nuget](https://www.nuget.org/packages/PostalConventions.NET))
+- **PostalRX.NET**: Reactive Extensions ([RX.NET](https://github.com/Reactive-Extensions/Rx.NET)) adapter ([Nuget](https://www.nuget.org/packages/PostalRX.NET))
+- **PostalWhen.NET**: composition of events (e.g., "do this when you receive this and that") ([Nuget](https://www.nuget.org/packages/PostalWhen.NET))
+- **PostalRequestResponse.NET**: implementation of request-response pattern ([Nuget](https://www.nuget.org/packages/PostalRequestResponse.NET))
 - **Postal.NET.Test**: working examples
 
 ##Contacts
