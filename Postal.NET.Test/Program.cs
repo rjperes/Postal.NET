@@ -11,6 +11,13 @@ namespace Postal.NET.Test
 {
     class Program
     {
+        static void TestOnce()
+        {
+            Postal.Box.Once("channel", "topic", (env) => Console.WriteLine(env.Data));
+            Postal.Box.Publish("channel", "topic", "Hello, World!");
+            Postal.Box.Publish("channel", "topic", "Does not appear!");
+        }
+
         static void TestRequestResponse()
         {
             using (Postal.Box.Subscribe("channel", "topic", (env) =>
@@ -224,6 +231,7 @@ namespace Postal.NET.Test
         static void Main(string[] args)
         {
             //These are not unit tests, just samples of how to use Postal.NET
+            TestOnce();
             TestRequestResponse();
             TestMultipleSubscriptions();
             TestConditionalComposition();
