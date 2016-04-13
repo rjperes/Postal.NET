@@ -1,11 +1,11 @@
-﻿using Postal.NET;
+﻿using PostalNET;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace PostalConventions.NET
+namespace PostalConventionsNET
 {
     public sealed class ConventionsBox : IConventionsBox, IBox
     {
@@ -47,7 +47,7 @@ namespace PostalConventions.NET
 
         public IDisposable Subscribe<T>(Action<T> subscriber)
         {
-            var subscription = this.box.Subscribe(global::Postal.NET.Postal.All, global::Postal.NET.Postal.All, (env) =>
+            var subscription = this.box.Subscribe(Postal.All, Postal.All, (env) =>
             {
                 if (env.Data is T)
                 {

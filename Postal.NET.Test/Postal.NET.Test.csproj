@@ -7,8 +7,8 @@
     <ProjectGuid>{FB824619-F64A-4FD7-8F0F-AEE92B70BEC0}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Postal.NET.Test</RootNamespace>
-    <AssemblyName>Postal.NET.Test</AssemblyName>
+    <RootNamespace>PostalNET.Test</RootNamespace>
+    <AssemblyName>PostalNET.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

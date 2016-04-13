@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Postal.NET
+namespace PostalNET
 {
     /// <summary>
     /// Actual implementation contract for Postal.NET.
     /// </summary>
     public interface ISubscriberStore
     {
+        /// <summary>
+        /// How to match channels and topics.
+        /// </summary>
+        IChannelTopicMatcher Matcher { get; set; }
+
         /// <summary>
         /// Subscribes to an event.
         /// </summary>

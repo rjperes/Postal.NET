@@ -1,13 +1,13 @@
-﻿using PostalConventions.NET;
-using PostalRX.NET;
+﻿using PostalConventionsNET;
+using PostalRXNET;
 using System;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
-using PostalWhen.NET;
-using PostalRequestResponse.NET;
+using PostalWhenNET;
+using PostalRequestResponseNET;
 
-namespace Postal.NET.Test
+namespace PostalNET.Test
 {
     class Program
     {
@@ -180,6 +180,7 @@ namespace Postal.NET.Test
                 .Subscribe(env => Console.WriteLine(env.Data)))
             {
                 Postal.Box.Publish("channel1", "topic1", "Will not show");
+                Postal.Box.Publish("channel3", "topic3", "Will not show");
                 Postal.Box.Publish("channel2", "topic2", "Hello, World!");
             }
         }

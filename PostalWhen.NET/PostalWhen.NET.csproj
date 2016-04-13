@@ -8,8 +8,8 @@
     <ProjectGuid>{8B876119-DF95-4B31-A4BE-6A677DFBA72E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PostalWhen.NET</RootNamespace>
-    <AssemblyName>PostalWhen.NET</AssemblyName>
+    <RootNamespace>PostalWhenNET</RootNamespace>
+    <AssemblyName>PostalWhenNET</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

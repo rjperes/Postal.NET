@@ -3,39 +3,33 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Postal.NET
+namespace PostalNET
 {
     public class BasicSubscriberStore : ISubscriberStore
     {
         class SubscriberId
         {
             private readonly Guid id;
-            private readonly Regex channelRegex;
-            private readonly Regex topicRegex;
+            private readonly IChannelTopicMatcher matcher;
             private readonly Func<Envelope, bool> condition;
+            private readonly string channel;
+            private readonly string topic;
 
-            public SubscriberId(string channel, string topic, Func<Envelope, bool> condition)
+            public SubscriberId(string channel, string topic, Func<Envelope, bool> condition, IChannelTopicMatcher matcher)
             {
                 this.id = Guid.NewGuid();
-                this.channelRegex = new Regex("^" + this.Normalize(channel) + "$");
-                this.topicRegex = new Regex("^" + this.Normalize(topic) + "$");
+                this.channel = channel;
+                this.topic = topic;
+                this.matcher = matcher;
                 this.condition = condition;
-            }
-
-            private string Normalize(string str)
-            {
-                return str
-                    .Replace(".", "\\.")
-                    .Replace(Postal.All, "." + Postal.All);
             }
 
             public bool MatchesChannelAndTopic(string channel, string topic)
             {
-                return this.channelRegex.IsMatch(channel) == true
-                       && this.topicRegex.IsMatch(topic);
+                return (this.matcher.Matches(this.channel, channel) == true)
+                       && (this.matcher.Matches(this.topic, topic) == true);
             }
 
             public override bool Equals(object obj)
@@ -82,9 +76,16 @@ namespace Postal.NET
 
         private readonly ConcurrentDictionary<SubscriberId, GCHandle> subscribers = new ConcurrentDictionary<SubscriberId, GCHandle>();
 
+        public BasicSubscriberStore()
+        {
+            this.Matcher = WildcardChannelTopicMatcher.Instance;
+        }
+
+        public IChannelTopicMatcher Matcher { get; set; }
+
         protected virtual object CreateId(string channel, string topic, Func<Envelope, bool> condition)
         {
-            var id = new SubscriberId(channel, topic, condition);
+            var id = new SubscriberId(channel, topic, condition, this.Matcher);
             return id;
         }
 

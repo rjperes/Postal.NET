@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Postal.NET
+namespace PostalNET
 {
     public static class BoxExtensions
     {

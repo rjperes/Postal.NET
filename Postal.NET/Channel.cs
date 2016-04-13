@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Postal.NET
+namespace PostalNET
 {
     internal sealed class Channel : IChannel
     {

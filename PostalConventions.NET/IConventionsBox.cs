@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace PostalConventions.NET
+namespace PostalConventionsNET
 {
     public interface IConventionsBox
     {

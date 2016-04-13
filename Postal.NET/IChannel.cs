@@ -1,4 +1,4 @@
-﻿namespace Postal.NET
+﻿namespace PostalNET
 {
     /// <summary>
     /// An event channel.

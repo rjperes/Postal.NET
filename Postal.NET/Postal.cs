@@ -1,4 +1,4 @@
-﻿namespace Postal.NET
+﻿namespace PostalNET
 {
     /// <summary>
     /// The well-known location for the Postal.NET implementation.

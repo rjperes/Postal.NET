@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Postal.NET
+namespace PostalNET
 {
     internal sealed class Topic : ITopic
     {

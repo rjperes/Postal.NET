@@ -1,7 +1,7 @@
-﻿using Postal.NET;
+﻿using PostalNET;
 using System;
 
-namespace PostalWhen.NET
+namespace PostalWhenNET
 {
     public interface ICompositionBox
     {

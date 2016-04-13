@@ -1,10 +1,8 @@
-﻿using Postal.NET;
+﻿using PostalNET;
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using Postal = Postal.NET.Postal;
 
-namespace PostalWhen.NET
+namespace PostalWhenNET
 {
     public sealed class CompositionBox : ICompositionBox
     {
@@ -13,9 +11,11 @@ namespace PostalWhen.NET
             private readonly string channel;
             private readonly string topic;
             private readonly Func<Envelope, bool> condition;
+            private readonly IChannelTopicMatcher matcher;
 
-            public Condition(string channel, string topic, Func<Envelope, bool> condition)
+            public Condition(string channel, string topic, Func<Envelope, bool> condition, IChannelTopicMatcher matcher)
             {
+                this.matcher = matcher;
                 this.channel = channel;
                 this.topic = topic;
 
@@ -27,21 +27,15 @@ namespace PostalWhen.NET
                 this.condition = condition;
             }
 
-            private string Normalize(string str)
-            {
-                return str
-                    .Replace(".", "\\.")
-                    .Replace(global::Postal.NET.Postal.All, "." + global::Postal.NET.Postal.All);
-            }
-
             public bool MatchesChannelAndTopic(Envelope env)
             {
-                var channelRegex = new Regex("^" + this.Normalize(this.channel) + "$");
-                var topicRegex = new Regex("^" + this.Normalize(this.topic) + "$");
+                return this.matcher.Matches(this.channel, env.Channel) == true
+                    && this.matcher.Matches(this.topic, env.Topic) == true;
+            }
 
-                var matches = channelRegex.IsMatch(env.Channel) == true && topicRegex.IsMatch(env.Topic);
-
-                return matches && this.condition(env);
+            public bool MatchesCondition(Envelope env)
+            {
+                return this.condition(env);
             }
         }
 
@@ -52,8 +46,9 @@ namespace PostalWhen.NET
         private int index;
         private DateTime startTime;
         private TimeSpan? time;
+        private IChannelTopicMatcher matcher;
 
-        public CompositionBox(IBox box)
+        public CompositionBox(IBox box, IChannelTopicMatcher matcher = null)
         {
             if (box == null)
             {
@@ -61,34 +56,41 @@ namespace PostalWhen.NET
             }
 
             this.box = box;
-            this.subscription = this.box.Subscribe(global::Postal.NET.Postal.All, global::Postal.NET.Postal.All, this.OnReceive);
+            //TODO: somehow get the matcher from the box
+            this.matcher = matcher ?? WildcardChannelTopicMatcher.Instance;
+            this.subscription = this.box.Subscribe(Postal.All, Postal.All, this.OnReceive);
         }
 
         private void OnReceive(Envelope env)
         {
             if (this.conditions[this.index].MatchesChannelAndTopic(env) == true)
             {
-                if (this.index == 0)
+                if (this.conditions[this.index].MatchesCondition(env) == true)
                 {
-                    this.startTime = DateTime.UtcNow;
-                }
-
-                this.index++;
-
-                if (this.index == this.conditions.Count)
-                {
-                    if ((this.time == null) || ((DateTime.UtcNow - this.startTime) < this.time))
+                    if (this.index == 0)
                     {
-                        this.subscriber(env);
+                        this.startTime = DateTime.UtcNow;
+                    }
+
+                    this.index++;
+
+                    if (this.index == this.conditions.Count)
+                    {
+                        if ((this.time == null) || ((DateTime.UtcNow - this.startTime) < this.time))
+                        {
+                            this.subscriber(env);
+                        }
+                    }
+                    else
+                    {
+                        return;
                     }
                 }
                 else
                 {
-                    return;
+                    this.index = 0;
                 }
             }
-
-            this.index = 0;
         }
 
         public ICompositionBox InTime(TimeSpan time)
@@ -110,7 +112,7 @@ namespace PostalWhen.NET
                 throw new ArgumentNullException("topic");
             }
 
-            this.conditions.Add(new Condition(channel, topic, condition));
+            this.conditions.Add(new Condition(channel, topic, condition, this.matcher));
 
             return this;
         }
