@@ -47,6 +47,7 @@
     <Compile Include="IBox.cs" />
     <Compile Include="IChannel.cs" />
     <Compile Include="IChannelTopicMatcher.cs" />
+    <Compile Include="IChannelTopicMatcherProvider.cs" />
     <Compile Include="ISubscriberStore.cs" />
     <Compile Include="ITopic.cs" />
     <Compile Include="Postal.cs" />

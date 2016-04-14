@@ -3,9 +3,22 @@ using System.Threading.Tasks;
 
 namespace PostalNET
 {
-    public sealed class Box : IBox
+    public sealed class Box : IBox, IChannelTopicMatcherProvider
     {
         public ISubscriberStore SubscriberStore { get; set; } = new BasicSubscriberStore();
+
+        public IChannelTopicMatcher Matcher
+        {
+            get
+            {
+                if (this.SubscriberStore is IChannelTopicMatcherProvider)
+                {
+                    return (this.SubscriberStore as IChannelTopicMatcherProvider).Matcher;
+                }
+
+                return null;
+            }
+        }
 
         public void Publish(string channel, string topic, object data)
         {
@@ -47,16 +60,6 @@ namespace PostalNET
             if (string.IsNullOrWhiteSpace(topic) == true)
             {
                 throw new ArgumentNullException("topic");
-            }
-
-            if (channel.Contains(",") == true)
-            {
-                throw new ArgumentException("Channel names cannot contain commas", "channel");
-            }
-
-            if (topic.Contains(",") == true)
-            {
-                throw new ArgumentException("Topic names cannot contain commas", "topic");
             }
         }
 

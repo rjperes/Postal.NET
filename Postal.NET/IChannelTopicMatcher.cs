@@ -8,9 +8,9 @@
         /// <summary>
         /// Checks if two channel or topic names match.
         /// </summary>
-        /// <param name="channelOrTopic1">A channel or topic.</param>
-        /// <param name="channelOrTopic2">Another channel or topic.</param>
+        /// <param name="subscribedChannelOrTopic">A channel or topic.</param>
+        /// <param name="publishedChannelOrTopic">Another channel or topic.</param>
         /// <returns>True if the value matches.</returns>
-        bool Matches(string channelOrTopic1, string channelOrTopic2);
+        bool Matches(string subscribedChannelOrTopic, string publishedChannelOrTopic);
     }
 }

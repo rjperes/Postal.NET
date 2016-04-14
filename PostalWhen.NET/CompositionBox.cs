@@ -56,7 +56,15 @@ namespace PostalWhenNET
             }
 
             this.box = box;
-            //TODO: somehow get the matcher from the box
+
+            if (matcher == null)
+            {
+                if (box is IChannelTopicMatcherProvider)
+                {
+                    matcher = (box as IChannelTopicMatcherProvider).Matcher;
+                }
+            }
+
             this.matcher = matcher ?? WildcardChannelTopicMatcher.Instance;
             this.subscription = this.box.Subscribe(Postal.All, Postal.All, this.OnReceive);
         }

@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace PostalNET
 {
@@ -9,11 +10,26 @@ namespace PostalNET
     {
         public static readonly IChannelTopicMatcher Instance = new WildcardChannelTopicMatcher();
 
-        public bool Matches(string channelOrTopic1, string channelOrTopic2)
+        public bool Matches(string subscribedChannelOrTopic, string publishedChannelOrTopic)
         {
-            var regex = new Regex("^" + this.Normalize(channelOrTopic1) + "$");
+            if (string.IsNullOrWhiteSpace(subscribedChannelOrTopic) == true)
+            {
+                throw new ArgumentNullException("subscribedChannelOrTopic");
+            }
 
-            return regex.IsMatch(channelOrTopic2);
+            if (string.IsNullOrWhiteSpace(publishedChannelOrTopic) == true)
+            {
+                throw new ArgumentNullException("publishedChannelOrTopic");
+            }
+
+            if (publishedChannelOrTopic.Contains(Postal.All) == true)
+            {
+                throw new ArgumentException("The published channel or topic cannot have wildcards", "publishedChannelOrTopic");
+            }
+
+            var regex = new Regex("^" + this.Normalize(subscribedChannelOrTopic) + "$");
+
+            return regex.IsMatch(publishedChannelOrTopic);
         }
 
         private string Normalize(string str)

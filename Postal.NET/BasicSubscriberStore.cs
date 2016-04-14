@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PostalNET
 {
-    public class BasicSubscriberStore : ISubscriberStore
+    public class BasicSubscriberStore : ISubscriberStore, IChannelTopicMatcherProvider
     {
         class SubscriberId
         {
