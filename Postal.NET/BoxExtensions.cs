@@ -216,5 +216,59 @@ namespace PostalNET
 
             return channel.Topic(Postal.All);
         }
+
+        /// <summary>
+        /// Adds an event handler.
+        /// </summary>
+        /// <typeparam name="T">The message type.</typeparam>
+        /// <param name="box">A Postal.NET implementation.</param>
+        /// <param name="handler">The handler.</param>
+        /// <param name="channel">An optional channel.</param>
+        /// <param name="topic">An optional topic.</param>
+        /// <returns>A subscription.</returns>
+        public static IDisposable AddHandler<T>(this IBox box, IHandler<T> handler, string channel = null, string topic = null)
+        {
+            if (channel == string.Empty)
+            {
+                channel = null;
+            }
+
+            if (topic == string.Empty)
+            {
+                topic = null;
+            }
+
+            return box
+                .Channel(channel ?? Postal.All)
+                .Topic(topic ?? Postal.All)
+                .SubscribeWhen((env) => handler.Handle((T)env.Data), env => env.Data is T);
+        }
+
+        /// <summary>
+        /// Adds an asynchronous event handler.
+        /// </summary>
+        /// <typeparam name="T">The message type.</typeparam>
+        /// <param name="box">A Postal.NET implementation.</param>
+        /// <param name="handler">The handler.</param>
+        /// <param name="channel">An optional channel.</param>
+        /// <param name="topic">An optional topic.</param>
+        /// <returns>A subscription.</returns>
+        public static IDisposable AddAsyncHandler<T>(this IBox box, IAsyncHandler<T> handler, string channel = null, string topic = null)
+        {
+            if (channel == string.Empty)
+            {
+                channel = null;
+            }
+
+            if (topic == string.Empty)
+            {
+                topic = null;
+            }
+
+            return box
+                .Channel(channel ?? Postal.All)
+                .Topic(topic ?? Postal.All)
+                .SubscribeWhen(async (env) => await handler.HandleAsync((T)env.Data), env => env.Data is T);
+        }
     }
 }

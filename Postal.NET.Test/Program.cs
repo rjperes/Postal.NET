@@ -6,11 +6,72 @@ using System.Reactive.Linq;
 using System.Threading;
 using PostalWhenNET;
 using PostalRequestResponseNET;
+using System.Threading.Tasks;
 
 namespace PostalNET.Test
 {
-    class Program
+    static class Program
     {
+        class DummyHandler : IHandler<string>, IAsyncHandler<string>
+        {
+            private readonly EventWaitHandle _evt;
+
+            public DummyHandler(EventWaitHandle evt)
+            {
+                _evt = evt;
+            }
+
+            public void Handle(string msg)
+            {
+                Console.WriteLine(msg);
+
+                _evt.Set();
+            }
+
+            public async Task HandleAsync(string msg)
+            {
+                Console.WriteLine(msg);
+
+                _evt.Set();
+            }
+        }
+
+        static void TestHandler()
+        {
+            using (var evt = new ManualResetEvent(false))
+            {
+                var handler = new DummyHandler(evt);
+
+                using (Postal.Box.AddHandler<string>(handler, "channel", "topic"))
+                {
+                    Postal.Box.Publish("channel", "topic", "Hello, World!");
+
+                    evt.WaitOne();
+                }
+            }
+        }
+
+        static void TestAsyncHandler()
+        {
+            using (var evt = new ManualResetEvent(false))
+            {
+                var handler = new DummyHandler(evt);
+
+                using (Postal.Box.AddAsyncHandler<string>(handler, "channel", "topic"))
+                {
+                    Postal.Box.Publish("channel", "topic", "Hello, World!");
+
+                    evt.WaitOne();
+                }
+            }
+        }
+
+        static void TestFactory()
+        {
+            Postal.Factory = () => null;
+            var isNull = (Postal.Box == null);
+        }
+
         static void TestOnce()
         {
             Postal.Box.Once("channel", "topic", (env) => Console.WriteLine(env.Data));
@@ -229,9 +290,12 @@ namespace PostalNET.Test
             }
         }
 
-        static void Main(string[] args)
+        static void Main()
         {
             //These are not unit tests, just samples of how to use Postal.NET
+            TestFactory();
+            TestHandler();
+            TestAsyncHandler();
             TestOnce();
             TestRequestResponse();
             TestMultipleSubscriptions();
