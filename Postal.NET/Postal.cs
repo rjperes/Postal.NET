@@ -7,17 +7,29 @@ namespace PostalNET
     /// </summary>
     public static class Postal
     {
+        private static readonly Func<IBox> _defaultFactory = () => new Box();
+        private static Func<IBox> _factory = _defaultFactory;
+        private static IBox _box;
+
         /// <summary>
         /// The Postal.NET implementation factory.
         /// </summary>
-        public static Func<IBox> Factory = () => new Box();
+        public static Func<IBox> Factory
+        {
+            get
+            {
+                return _factory;
+            }
+            set
+            {
+                _factory = value ?? _defaultFactory;
+            }
+        }
 
         /// <summary>
         /// Any channel or topic.
         /// </summary>
         public const string All = "*";
-
-        private static IBox _box;
 
         /// <summary>
         /// The Postal.NET implementation.

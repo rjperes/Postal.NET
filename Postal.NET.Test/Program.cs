@@ -12,6 +12,30 @@ namespace PostalNET.Test
 {
     static class Program
     {
+        class DummyDisposable : IDisposable
+        {
+            public void Dispose()
+            {
+            }
+        }
+
+        class DummyBox : IBox
+        {
+            public void Publish(string channel, string topic, object data)
+            {
+            }
+
+            public Task PublishAsync(string channel, string topic, object data)
+            {
+                return Task.FromResult(0);
+            }
+
+            public IDisposable Subscribe(string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
+            {
+                return new DummyDisposable();
+            }
+        }
+
         class DummyHandler : IHandler<string>, IAsyncHandler<string>
         {
             private readonly EventWaitHandle _evt;
@@ -68,8 +92,8 @@ namespace PostalNET.Test
 
         static void TestFactory()
         {
-            Postal.Factory = () => null;
-            var isNull = (Postal.Box == null);
+            Postal.Factory = () => new DummyBox();
+            var isDummy = Postal.Box is DummyBox;
         }
 
         static void TestOnce()
