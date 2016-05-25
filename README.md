@@ -5,7 +5,7 @@ Postal.NET is a .NET portable library for writing decoupled applications. It is 
 It was written by [Ricardo Peres](https://github.com/rjperes) ([@rjperes75](https://twitter.com/rjperes75)).
 
 ##Concepts
-Postal.NET uses the concepts of **channels** and **topics**. We subscribe to a topic of a channel, and we send messages to other (or possibly the same) channels and topics. The "*" character means anything, so, for example, **"a.b"** and **"a.\*"** or even **"\*"** will match. There can be several simultaneous subscriptions, even to the same channel/topic pair. Postal.NET guarantees the delivery.
+Postal.NET uses the concepts of **channels** and **topics**. We subscribe to a topic of a channel, and we send messages to other (or possibly the same) channels and topics. The **"\*"** character means anything, so, for example, **"a.b"** and **"a.\*"** or even **"\*"** will match. There can be several simultaneous subscriptions, even to the same channel/topic pair. Postal.NET guarantees the delivery.
 
 ##Usage
 
@@ -28,7 +28,7 @@ There are some handy extensions for common tasks:
 - **Once**: only handles an event once, then unsubcribes from it
 - **MultiPublish**: publishes a number of events at once
 - **SubscribeMulti**: subscribes to one or more channels, separated by commas, at a time
-- **Subscribe< T >**: subscribes to an event where its payload is of a given type
+- **Subscribe\<T\>**: subscribes to an event where its payload is of a given type
 
 The public interface is decoupled from the actual implementation and it can be easily switched.
 
