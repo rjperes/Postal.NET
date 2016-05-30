@@ -6,40 +6,59 @@ namespace PostalRequestResponseNET
 {
     public static class BoxExtensions
     {
-        public static IDisposable SubscribeRequestResponse(this IBox box, string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
-        {
-            if (condition == null)
-            {
-                condition = (env) => true;
-            }
+        private static readonly TimeSpan _defaultDelay = TimeSpan.FromSeconds(5);
 
-            return box.Subscribe(channel, topic, subscriber, (env) => env.IsRequestResponse() && condition(env));
-        }
-
+        /// <summary>
+        /// Checks if a message is a request-response one.
+        /// </summary>
+        /// <param name="env">A message envelope.</param>
+        /// <returns>True if the message is request-response, false otherwise.</returns>
         public static bool IsRequestResponse(this Envelope env)
         {
             return env.Data is IRequestResponseData;
         }
 
+        /// <summary>
+        /// Returns the underlying data in a request-response message.
+        /// </summary>
+        /// <param name="env">A message envelope.</param>
+        /// <returns>The message data.</returns>
+        public static object Unwrap(this Envelope env)
+        {
+            return Unwrap<object>(env);
+        }
+
+        /// <summary>
+        /// Returns the underlying typed data in a request-response message.
+        /// </summary>
+        /// <typeparam name="T">The data type.</typeparam>
+        /// <param name="env">A message envelope.</param>
+        /// <returns>The typed message data.</returns>
         public static T Unwrap<T>(this Envelope env)
         {
             var wrapped = env.IsRequestResponse() ? (env.Data as IRequestResponseData).Data : env.Data;
             return (T) wrapped;
         }
 
+        /// <summary>
+        /// Sends a request-response message.
+        /// </summary>
+        /// <param name="box">A Postal.NET box implementation.</param>
+        /// <param name="channel">A channel.</param>
+        /// <param name="topic">A topic.</param>
+        /// <param name="data">The message.</param>
+        /// <param name="delay">An optional delay.</param>
+        /// <returns>The response.</returns>
         public static object Request(this IBox box, string channel, string topic, object data, TimeSpan? delay = null)
         {
             var correlationId = Guid.NewGuid();
             object response = null;
 
-            if (delay == null)
-            {
-                delay = TimeSpan.FromSeconds(5);
-            }
+            delay = delay ?? _defaultDelay;
 
             using (var evt = new ManualResetEvent(false))
             {
-                using (var subscription = box.Subscribe(correlationId.ToString(), correlationId.ToString(), (env) =>
+                using (box.Subscribe(correlationId.ToString(), correlationId.ToString(), (env) =>
                 {
                     var rrData = env.Data as IRequestResponseData;
 
@@ -56,6 +75,27 @@ namespace PostalRequestResponseNET
             return response;
         }
 
+        /// <summary>
+        /// Sends a request-response message.
+        /// </summary>
+        /// <typeparam name="T">The message type.</typeparam>
+        /// <param name="box">A Postal.NET box implementation.</param>
+        /// <param name="channel">A channel.</param>
+        /// <param name="topic">A topic.</param>
+        /// <param name="data">The message.</param>
+        /// <param name="delay">An optional delay.</param>
+        /// <returns>The typed response.</returns>
+        public static T Request<T>(this IBox box, string channel, string topic, object data, TimeSpan? delay = null)
+        {
+            return (T)Request(box, channel, topic, data, delay);
+        }
+
+        /// <summary>
+        /// Sends a request-response response.
+        /// </summary>
+        /// <param name="box">A Postal.NET box implementation.</param>
+        /// <param name="env">The request message envelope.</param>
+        /// <param name="data">A message.</param>
         public static void Reply(this IBox box, Envelope env, object data)
         {
             var rrData = env.Data as IRequestResponseData;

@@ -22,7 +22,7 @@ Postal.NET uses the concepts of **channels** and **topics**. We subscribe to a t
     //no consequences, since the subscription was terminated
     Postal.Box.Publish("channel", "topic", "Does not appear because the subscription was disposed!");
 
-A message can either be sent synchronously or asynchronously and if there are subscribers to it, it will raise an event (one or more subscriptions being triggered). Subscriptions do not prevent the garbage collection of the subscriber.
+A message can either be sent synchronously or asynchronously and if there are subscribers to it, it will raise an event (one or more subscriptions being triggered). Subscriptions do not prevent the garbage collection of the subscriber. Messages are always wrapped in an envelope.
 There are some handy extensions for common tasks:
 
 - **Once**: only handles an event once, then unsubcribes from it
@@ -46,9 +46,10 @@ You can either:
 Other projects you can find in the GitHub repository and in Nuget are:
 
 - **PostalConventions.NET**: conventions for channels and topics ([Nuget](https://www.nuget.org/packages/PostalConventions.NET))
+- **PostalCqrs.NET**: [CQRS](http://martinfowler.com/bliki/CQRS.html) extensions ([Nuget](https://www.nuget.org/packages/PostalCqrs.NET))
+- **PostalRequestResponse.NET**: implementation of request-response pattern ([Nuget](https://www.nuget.org/packages/PostalRequestResponse.NET))
 - **PostalRX.NET**: Reactive Extensions ([RX.NET](https://github.com/Reactive-Extensions/Rx.NET)) adapter ([Nuget](https://www.nuget.org/packages/PostalRX.NET))
 - **PostalWhen.NET**: composition of events (e.g., "do this when you receive this and that") ([Nuget](https://www.nuget.org/packages/PostalWhen.NET))
-- **PostalRequestResponse.NET**: implementation of request-response pattern ([Nuget](https://www.nuget.org/packages/PostalRequestResponse.NET))
 - **Postal.NET.Test**: working examples
 
 ##Contacts

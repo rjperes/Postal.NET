@@ -52,11 +52,13 @@ namespace PostalNET.Test
                 _evt.Set();
             }
 
-            public async Task HandleAsync(string msg)
+            public Task HandleAsync(string msg)
             {
                 Console.WriteLine(msg);
 
                 _evt.Set();
+
+                return Task.FromResult(0);
             }
         }
 

@@ -7,51 +7,68 @@ using System.Threading.Tasks;
 
 namespace PostalConventionsNET
 {
-    public sealed class ConventionsBox : IConventionsBox, IBox
+    sealed class ConventionsBox : IConventionsBox, IBox
     {
-        private readonly IBox box;
-        private readonly Dictionary<Type, Func<object, string>> channelConventions = new Dictionary<Type, Func<object, string>>();
-        private readonly Dictionary<Type, Func<object, string>> topicConventions = new Dictionary<Type, Func<object, string>>();
+        private readonly IBox _box;
+        private readonly Dictionary<Type, Func<object, string>> _channelConventions = new Dictionary<Type, Func<object, string>>();
+        private readonly Dictionary<Type, Func<object, string>> _topicConventions = new Dictionary<Type, Func<object, string>>();
+        private Func<object, bool> _condition;
 
         public ConventionsBox(IBox box)
         {
-            this.box = box;
+            this._box = box;
+            this._condition = (env) => true;
         }
 
         public IDisposable Subscribe(string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
         {
-            return this.box.Subscribe(channel, topic, subscriber, condition);
+            return this._box.Subscribe(channel, topic, subscriber, (env) => condition(env) && this._condition(env));
         }
 
         public void Publish(string channel, string topic, object data)
         {
-            this.box.Publish(channel, topic, data);
+            this._box.Publish(channel, topic, data);
         }
 
         public async Task PublishAsync(string channel, string topic, object data)
         {
-            await this.box.PublishAsync(channel, topic, data);
+            await this._box.PublishAsync(channel, topic, data);
+        }
+
+        public IConventionsBox AddConditionConvention<T>(Func<T, bool> convention)
+        {
+            if (convention == null)
+            {
+                throw new ArgumentNullException("convention");
+            }
+
+            this._condition = (data) => (data is T) && (convention((T)data));
+
+            return this;
         }
 
         public IConventionsBox AddChannelConvention<T>(Func<T, string> convention)
         {
-            this.channelConventions[typeof (T)] = data => convention((T)data);
+            this._channelConventions[typeof (T)] = data => convention((T)data);
             return this;
         }
 
         public IConventionsBox AddTopicConvention<T>(Func<T, string> convention)
         {
-            this.topicConventions[typeof (T)] = data => convention((T)data);
+            this._topicConventions[typeof (T)] = data => convention((T)data);
             return this;
         }
 
         public IDisposable Subscribe<T>(Action<T> subscriber)
         {
-            var subscription = this.box.Subscribe(Postal.All, Postal.All, (env) =>
+            var subscription = this._box.Subscribe(Postal.All, Postal.All, (env) =>
             {
-                if (env.Data is T)
+                if (this._condition(env) == true)
                 {
-                    subscriber((T) env.Data);
+                    if (env.Data is T)
+                    {
+                        subscriber((T)env.Data);
+                    }
                 }
             });
 
@@ -121,12 +138,12 @@ namespace PostalConventionsNET
 
         private string FindTopic<T>(T data)
         {
-            return this.Find<T>(data, this.topicConventions);
+            return this.Find<T>(data, this._topicConventions);
         }
 
         private string FindChannel<T>(T data)
         {
-            return this.Find<T>(data, this.channelConventions);
+            return this.Find<T>(data, this._channelConventions);
         }
     }
 }

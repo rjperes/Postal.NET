@@ -4,13 +4,13 @@ namespace PostalNET
 {
     internal sealed class Channel : IChannel
     {
-        private readonly IBox box;
-        private readonly string channel;
+        private readonly IBox _box;
+        private readonly string _channel;
 
         public Channel(IBox box, string channel)
         {
-            this.box = box;
-            this.channel = channel;
+            this._box = box;
+            this._channel = channel;
         }
 
         public ITopic Topic(string topic)
@@ -20,12 +20,12 @@ namespace PostalNET
                 throw new ArgumentNullException("topic");
             }
 
-            return new Topic(this.box, this.channel, topic);
+            return new Topic(this._box, this._channel, topic);
         }
 
         public override string ToString()
         {
-            return this.channel;
+            return this._channel;
         }
     }
 }

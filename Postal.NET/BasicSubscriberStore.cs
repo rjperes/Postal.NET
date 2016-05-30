@@ -11,25 +11,25 @@ namespace PostalNET
     {
         class SubscriberId
         {
-            private readonly Guid id;
-            private readonly IChannelTopicMatcher matcher;
-            private readonly Func<Envelope, bool> condition;
-            private readonly string channel;
-            private readonly string topic;
+            private readonly Guid _id;
+            private readonly IChannelTopicMatcher _matcher;
+            private readonly Func<Envelope, bool> _condition;
+            private readonly string _channel;
+            private readonly string _topic;
 
             public SubscriberId(string channel, string topic, Func<Envelope, bool> condition, IChannelTopicMatcher matcher)
             {
-                this.id = Guid.NewGuid();
-                this.channel = channel;
-                this.topic = topic;
-                this.matcher = matcher;
-                this.condition = condition;
+                this._id = Guid.NewGuid();
+                this._channel = channel;
+                this._topic = topic;
+                this._matcher = matcher;
+                this._condition = condition;
             }
 
             public bool MatchesChannelAndTopic(string channel, string topic)
             {
-                return (this.matcher.Matches(this.channel, channel) == true)
-                       && (this.matcher.Matches(this.topic, topic) == true);
+                return (this._matcher.Matches(this._channel, channel) == true)
+                       && (this._matcher.Matches(this._topic, topic) == true);
             }
 
             public override bool Equals(object obj)
@@ -41,40 +41,40 @@ namespace PostalNET
                     return false;
                 }
 
-                return other.id == this.id;
+                return other._id == this._id;
             }
 
             public override int GetHashCode()
             {
-                return this.id.GetHashCode();
+                return this._id.GetHashCode();
             }
 
             public bool PassesCondition(Envelope env)
             {
-                return this.condition(env);
+                return this._condition(env);
             }
         }
 
         class DisposableSubscription : IDisposable
         {
-            private readonly SubscriberId id;
-            private readonly IDictionary<SubscriberId, GCHandle> subscribers;
+            private readonly SubscriberId _id;
+            private readonly IDictionary<SubscriberId, GCHandle> _subscribers;
 
             public DisposableSubscription(SubscriberId id, IDictionary<SubscriberId, GCHandle> subscribers)
             {
-                this.id = id;
-                this.subscribers = subscribers;
+                this._id = id;
+                this._subscribers = subscribers;
             }
 
             public void Dispose()
             {
-                var handle = this.subscribers[this.id];
+                var handle = this._subscribers[this._id];
                 handle.Free();
-                this.subscribers.Remove(this.id);
+                this._subscribers.Remove(this._id);
             }
         }
 
-        private readonly ConcurrentDictionary<SubscriberId, GCHandle> subscribers = new ConcurrentDictionary<SubscriberId, GCHandle>();
+        private readonly ConcurrentDictionary<SubscriberId, GCHandle> _subscribers = new ConcurrentDictionary<SubscriberId, GCHandle>();
 
         public BasicSubscriberStore()
         {
@@ -92,13 +92,13 @@ namespace PostalNET
         public virtual IDisposable Subscribe(string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
         {
             var id = this.CreateId(channel, topic, condition) as SubscriberId;
-            this.subscribers[id] = GCHandle.Alloc(subscriber, GCHandleType.Weak);
-            return new DisposableSubscription(id, this.subscribers);
+            this._subscribers[id] = GCHandle.Alloc(subscriber, GCHandleType.Weak);
+            return new DisposableSubscription(id, this._subscribers);
         }
 
         protected virtual IEnumerable<Action<Envelope>> GetSubscribers(Envelope env)
         {
-            return this.subscribers
+            return this._subscribers
                 .AsParallel()
                 .Where(subscriber =>
                     (subscriber.Value.IsAllocated == true) &&
@@ -128,6 +128,11 @@ namespace PostalNET
         protected virtual bool PassesCondition(object id, Envelope env)
         {
             return (id as SubscriberId).PassesCondition(env);
+        }
+
+        public virtual Envelope CreateEnvelope(string channel, string topic, object data)
+        {
+            return new Envelope(channel, topic, data);
         }
     }
 }

@@ -8,43 +8,42 @@ namespace PostalRXNET
     {
         class DisposableObserver : IDisposable, IObserver<Envelope>
         {
-            private readonly IObserver<Envelope> observer;
-            private readonly ICollection<IObserver<Envelope>> subscribers;
+            private readonly IObserver<Envelope> _observer;
+            private readonly ICollection<IObserver<Envelope>> _subscribers;
 
             public DisposableObserver(IObserver<Envelope> observer, ICollection<IObserver<Envelope>> subscribers)
             {
-                this.observer = observer;
-                this.subscribers = subscribers;
+                this._observer = observer;
+                this._subscribers = subscribers;
             }
 
             public void Dispose()
             {
                 this.OnCompleted();
-                this.subscribers.Remove(this.observer);
+                this._subscribers.Remove(this._observer);
             }
 
             public void OnNext(Envelope value)
             {
-                this.observer.OnNext(value);
+                this._observer.OnNext(value);
             }
 
             public void OnError(Exception error)
             {
-                this.observer.OnError(error);
+                this._observer.OnError(error);
             }
 
             public void OnCompleted()
             {
-                this.observer.OnCompleted();
+                this._observer.OnCompleted();
             }
         }
 
         class PostalObservable : IObservable<Envelope>, IDisposable
         {
-            private readonly LinkedList<IObserver<Envelope>> subscribers = new LinkedList<IObserver<Envelope>>();
-
-            private readonly IBox box;
-            private IDisposable subscription;
+            private readonly LinkedList<IObserver<Envelope>> _subscribers = new LinkedList<IObserver<Envelope>>();
+            private readonly IBox _box;
+            private IDisposable _subscription;
 
             public PostalObservable(ITopic topic)
             {
@@ -53,7 +52,7 @@ namespace PostalRXNET
                     throw new ArgumentNullException("topic");
                 }
 
-                this.subscription = topic.Subscribe(this.Notification);
+                this._subscription = topic.Subscribe(this.Notification);
             }
 
             public PostalObservable(IBox box, string channel, string topic)
@@ -63,13 +62,13 @@ namespace PostalRXNET
                     throw new ArgumentNullException("box");
                 }
 
-                this.box = box;
-                this.subscription = this.box.Subscribe(channel, topic, this.Notification);
+                this._box = box;
+                this._subscription = this._box.Subscribe(channel, topic, this.Notification);
             }
 
             private void Notification(Envelope env)
             {
-                foreach (var observer in this.subscribers)
+                foreach (var observer in this._subscribers)
                 {
                     observer.OnNext(env);
                 }
@@ -82,33 +81,53 @@ namespace PostalRXNET
                     throw new ArgumentNullException("observer");
                 }
 
-                subscribers.AddLast(observer);
+                _subscribers.AddLast(observer);
 
-                return new DisposableObserver(observer, this.subscribers);
+                return new DisposableObserver(observer, this._subscribers);
             }
 
             public void Dispose()
             {
-                foreach (var observer in this.subscribers)
+                foreach (var observer in this._subscribers)
                 {
                     observer.OnCompleted();
                 }
 
-                this.subscribers.Clear();
-                this.subscription.Dispose();
+                this._subscribers.Clear();
+                this._subscription.Dispose();
             }
         }
 
+        /// <summary>
+        /// Observes a topic.
+        /// </summary>
+        /// <param name="topic">A topic.</param>
+        /// <returns>An observable.</returns>
         public static IObservable<Envelope> Observe(ITopic topic)
         {
             return new PostalObservable(topic);
         }
 
+        /// <summary>
+        /// Observes a topic.
+        /// </summary>
+        /// <param name="box">A Postal.NET box implementation.</param>
+        /// <param name="channel">A channel.</param>
+        /// <param name="topic">A topic.</param>
+        /// <returns>An observable.</returns>
         public static IObservable<Envelope> Observe(this IBox box, string channel, string topic)
         {
             return new PostalObservable(box, channel, topic);
         }
 
+        /// <summary>
+        /// Observes a topic.
+        /// </summary>
+        /// <param name="box">A Postal.NET box implementation.</param>
+        /// <param name="channel">A channel.</param>
+        /// <param name="topic">A topic.</param>
+        /// <param name="observer">An observer.</param>
+        /// <returns>A subscription.</returns>
         public static IDisposable Observe(this IBox box, string channel, string topic, IObserver<Envelope> observer)
         {
             return new PostalObservable(box, channel, topic).Subscribe(observer);

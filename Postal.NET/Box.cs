@@ -45,7 +45,7 @@ namespace PostalNET
         {
             this.Validate(channel, topic);
 
-            var env = new Envelope(channel, topic, data);
+            var env = this.SubscriberStore.CreateEnvelope(channel, topic, data);
 
             await this.SubscriberStore.PublishAsync(env);
         }

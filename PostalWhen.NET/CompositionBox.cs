@@ -4,49 +4,49 @@ using System.Collections.Generic;
 
 namespace PostalWhenNET
 {
-    public sealed class CompositionBox : ICompositionBox
+    sealed class CompositionBox : ICompositionBox
     {
         internal sealed class Condition
         {
-            private readonly string channel;
-            private readonly string topic;
-            private readonly Func<Envelope, bool> condition;
-            private readonly IChannelTopicMatcher matcher;
+            private readonly string _channel;
+            private readonly string _topic;
+            private readonly Func<Envelope, bool> _condition;
+            private readonly IChannelTopicMatcher _matcher;
 
             public Condition(string channel, string topic, Func<Envelope, bool> condition, IChannelTopicMatcher matcher)
             {
-                this.matcher = matcher;
-                this.channel = channel;
-                this.topic = topic;
+                this._matcher = matcher;
+                this._channel = channel;
+                this._topic = topic;
 
                 if (condition == null)
                 {
                     condition = (env) => true;
                 }
 
-                this.condition = condition;
+                this._condition = condition;
             }
 
             public bool MatchesChannelAndTopic(Envelope env)
             {
-                return this.matcher.Matches(this.channel, env.Channel) == true
-                    && this.matcher.Matches(this.topic, env.Topic) == true;
+                return this._matcher.Matches(this._channel, env.Channel) == true
+                    && this._matcher.Matches(this._topic, env.Topic) == true;
             }
 
             public bool MatchesCondition(Envelope env)
             {
-                return this.condition(env);
+                return this._condition(env);
             }
         }
 
-        private readonly IBox box;
-        private readonly List<Condition> conditions = new List<Condition>();
-        private readonly IDisposable subscription;
-        private Action<Envelope> subscriber;
-        private int index;
-        private DateTime startTime;
-        private TimeSpan? time;
-        private IChannelTopicMatcher matcher;
+        private readonly IBox _box;
+        private readonly List<Condition> _conditions = new List<Condition>();
+        private readonly IDisposable _subscription;
+        private Action<Envelope> _subscriber;
+        private int _index;
+        private DateTime _startTime;
+        private TimeSpan? _time;
+        private readonly IChannelTopicMatcher _matcher;
 
         public CompositionBox(IBox box, IChannelTopicMatcher matcher = null)
         {
@@ -55,7 +55,7 @@ namespace PostalWhenNET
                 throw new ArgumentNullException("box");
             }
 
-            this.box = box;
+            this._box = box;
 
             if (matcher == null)
             {
@@ -65,28 +65,28 @@ namespace PostalWhenNET
                 }
             }
 
-            this.matcher = matcher ?? WildcardChannelTopicMatcher.Instance;
-            this.subscription = this.box.Subscribe(Postal.All, Postal.All, this.OnReceive);
+            this._matcher = matcher ?? WildcardChannelTopicMatcher.Instance;
+            this._subscription = this._box.Subscribe(Postal.All, Postal.All, this.OnReceive);
         }
 
         private void OnReceive(Envelope env)
         {
-            if (this.conditions[this.index].MatchesChannelAndTopic(env) == true)
+            if (this._conditions[this._index].MatchesChannelAndTopic(env) == true)
             {
-                if (this.conditions[this.index].MatchesCondition(env) == true)
+                if (this._conditions[this._index].MatchesCondition(env) == true)
                 {
-                    if (this.index == 0)
+                    if (this._index == 0)
                     {
-                        this.startTime = DateTime.UtcNow;
+                        this._startTime = DateTime.UtcNow;
                     }
 
-                    this.index++;
+                    this._index++;
 
-                    if (this.index == this.conditions.Count)
+                    if (this._index == this._conditions.Count)
                     {
-                        if ((this.time == null) || ((DateTime.UtcNow - this.startTime) < this.time))
+                        if ((this._time == null) || ((DateTime.UtcNow - this._startTime) < this._time))
                         {
-                            this.subscriber(env);
+                            this._subscriber(env);
                         }
                     }
                     else
@@ -96,14 +96,14 @@ namespace PostalWhenNET
                 }
                 else
                 {
-                    this.index = 0;
+                    this._index = 0;
                 }
             }
         }
 
         public ICompositionBox InTime(TimeSpan time)
         {
-            this.time = time;
+            this._time = time;
 
             return this;
         }
@@ -120,7 +120,7 @@ namespace PostalWhenNET
                 throw new ArgumentNullException("topic");
             }
 
-            this.conditions.Add(new Condition(channel, topic, condition, this.matcher));
+            this._conditions.Add(new Condition(channel, topic, condition, this._matcher));
 
             return this;
         }
@@ -132,13 +132,13 @@ namespace PostalWhenNET
                 throw new ArgumentNullException("subscriber");
             }
 
-            if (this.conditions.Count == 0)
+            if (this._conditions.Count == 0)
             {
                 throw new InvalidOperationException("Missing conditions");
             }
 
-            this.subscriber = subscriber;
-            return this.subscription;
+            this._subscriber = subscriber;
+            return this._subscription;
         }
     }
 }

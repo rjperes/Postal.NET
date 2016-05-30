@@ -8,16 +8,16 @@ namespace PostalNET
     {
         class MultiSubscription : IDisposable
         {
-            private readonly IEnumerable<IDisposable> subscriptions;
+            private readonly IEnumerable<IDisposable> _subscriptions;
 
             public MultiSubscription(IEnumerable<IDisposable> subscriptions)
             {
-                this.subscriptions = subscriptions;
+                this._subscriptions = subscriptions;
             }
 
             public void Dispose()
             {
-                foreach (var subscription in this.subscriptions)
+                foreach (var subscription in this._subscriptions)
                 {
                     subscription.Dispose();
                 }

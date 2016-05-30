@@ -35,5 +35,14 @@ namespace PostalNET
         /// </summary>
         /// <param name="env">The event envelope.</param>
         void Publish(Envelope env);
+
+        /// <summary>
+        /// Creates an event envelope.
+        /// </summary>
+        /// <param name="channel">The channel.</param>
+        /// <param name="topic">The topic.</param>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        Envelope CreateEnvelope(string channel, string topic, object data);
     }
 }
