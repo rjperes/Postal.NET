@@ -41,8 +41,10 @@
   <ItemGroup>
     <Compile Include="BoxExtensions.cs" />
     <Compile Include="ICommand.cs" />
+    <Compile Include="ICommandHandler.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="IQuery.cs" />
+    <Compile Include="IQueryHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

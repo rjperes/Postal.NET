@@ -33,22 +33,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.2.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.2.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PostalNET, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Postal.NET.1.0.0.5\lib\net45\PostalNET.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <HintPath>..\packages\PostalRX.NET.1.0.0.2\lib\net45\System.Reactive.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <HintPath>..\packages\PostalRX.NET.1.0.0.2\lib\net45\System.Reactive.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <HintPath>..\packages\PostalRX.NET.1.0.0.2\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostalRX.NET.1.0.0.2\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Reflection.TypeExtensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -67,16 +75,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Postal.NET\Postal.NET.csproj">
-      <Project>{456727dd-ed7a-4aee-834f-76cec23eb065}</Project>
-      <Name>Postal.NET</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PostalConventions.NET\PostalConventions.NET.csproj">
       <Project>{178b5b0f-96b5-492d-9825-35c4f69fbc48}</Project>
       <Name>PostalConventions.NET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostalCqrs.NET\PostalCqrs.NET.csproj">
+      <Project>{1a9e2a07-1ed9-46ce-ad82-77b33855bcf7}</Project>
+      <Name>PostalCqrs.NET</Name>
     </ProjectReference>
     <ProjectReference Include="..\PostalRequestResponse.NET\PostalRequestResponse.NET.csproj">
       <Project>{50a1510f-e482-46f1-95e0-548c33a073e3}</Project>
