@@ -26,15 +26,15 @@ namespace PostalNET
         /// <summary>
         /// Publishes an event asynchronously.
         /// </summary>
-        /// <param name="env">The event envelope.</param>
+        /// <param name="envelope">The event envelope.</param>
         /// <returns>A promise.</returns>
-        Task PublishAsync(Envelope env);
+        Task PublishAsync(Envelope envelope);
 
         /// <summary>
         /// Publishes an event synchronously.
         /// </summary>
-        /// <param name="env">The event envelope.</param>
-        void Publish(Envelope env);
+        /// <param name="envelope">The event envelope.</param>
+        void Publish(Envelope envelope);
 
         /// <summary>
         /// Creates an event envelope.

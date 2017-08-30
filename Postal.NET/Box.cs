@@ -54,12 +54,12 @@ namespace PostalNET
         {
             if (string.IsNullOrWhiteSpace(channel) == true)
             {
-                throw new ArgumentNullException("channel");
+                throw new ArgumentNullException(nameof(channel));
             }
 
             if (string.IsNullOrWhiteSpace(topic) == true)
             {
-                throw new ArgumentNullException("topic");
+                throw new ArgumentNullException(nameof(topic));
             }
         }
 
@@ -67,7 +67,7 @@ namespace PostalNET
         {
             if (subscriber == null)
             {
-                throw new ArgumentNullException("subscriber");
+                throw new ArgumentNullException(nameof(subscriber));
             }
         }
     }

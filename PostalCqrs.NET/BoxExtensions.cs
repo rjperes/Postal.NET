@@ -57,12 +57,12 @@ namespace PostalCqrsNET
         {
             if (box == null)
             {
-                throw new ArgumentNullException("box");
+                throw new ArgumentNullException(nameof(box));
             }
 
             if (command == null)
             {
-                throw new ArgumentNullException("command");
+                throw new ArgumentNullException(nameof(command));
             }
 
             return box.PublishAsync(channel, topic, command);
@@ -79,12 +79,12 @@ namespace PostalCqrsNET
         {
             if (topic == null)
             {
-                throw new ArgumentNullException("topic");
+                throw new ArgumentNullException(nameof(topic));
             }
 
             if (command == null)
             {
-                throw new ArgumentNullException("command");
+                throw new ArgumentNullException(nameof(command));
             }
 
             return topic.PublishAsync(command);
@@ -101,12 +101,12 @@ namespace PostalCqrsNET
         {
             if (topic == null)
             {
-                throw new ArgumentNullException("topic");
+                throw new ArgumentNullException(nameof(topic));
             }
 
             if (handler == null)
             {
-                throw new ArgumentNullException("handler");
+                throw new ArgumentNullException(nameof(handler));
             }
 
             return topic.SubscribeWhen((env) => handler.Handle((TCommand)env.Data), (env) => env.Data is TCommand);
@@ -123,12 +123,12 @@ namespace PostalCqrsNET
         {
             if (topic == null)
             {
-                throw new ArgumentNullException("topic");
+                throw new ArgumentNullException(nameof(topic));
             }
 
             if (handler == null)
             {
-                throw new ArgumentNullException("handler");
+                throw new ArgumentNullException(nameof(handler));
             }
 
             return topic.SubscribeWhen((env) => handler.Handle((TQuery)env.Data), (env) => env.Data is TQuery);
@@ -145,12 +145,12 @@ namespace PostalCqrsNET
         {
             if (topic == null)
             {
-                throw new ArgumentNullException("topic");
+                throw new ArgumentNullException(nameof(topic));
             }
 
             if (handler == null)
             {
-                throw new ArgumentNullException("handler");
+                throw new ArgumentNullException(nameof(handler));
             }
 
             return topic.SubscribeWhen((env) => handler.HandleAsync((TCommand)env.Data), (env) => env.Data is TCommand);
@@ -167,12 +167,12 @@ namespace PostalCqrsNET
         {
             if (topic == null)
             {
-                throw new ArgumentNullException("topic");
+                throw new ArgumentNullException(nameof(topic));
             }
 
             if (handler == null)
             {
-                throw new ArgumentNullException("handler");
+                throw new ArgumentNullException(nameof(handler));
             }
 
             return topic.SubscribeWhen((env) => handler.HandleAsync((TQuery)env.Data), (env) => env.Data is TQuery);
@@ -190,12 +190,12 @@ namespace PostalCqrsNET
         {
             if (topic == null)
             {
-                throw new ArgumentNullException("topic");
+                throw new ArgumentNullException(nameof(topic));
             }
 
             if (handler == null)
             {
-                throw new ArgumentNullException("handler");
+                throw new ArgumentNullException(nameof(handler));
             }
 
             return box.AddHandler(handler, channel, topic);
@@ -213,12 +213,12 @@ namespace PostalCqrsNET
         {
             if (topic == null)
             {
-                throw new ArgumentNullException("topic");
+                throw new ArgumentNullException(nameof(topic));
             }
 
             if (handler == null)
             {
-                throw new ArgumentNullException("handler");
+                throw new ArgumentNullException(nameof(handler));
             }
 
             return box.AddHandler(handler, channel, topic);
@@ -236,12 +236,12 @@ namespace PostalCqrsNET
         {
             if (topic == null)
             {
-                throw new ArgumentNullException("topic");
+                throw new ArgumentNullException(nameof(topic));
             }
 
             if (handler == null)
             {
-                throw new ArgumentNullException("handler");
+                throw new ArgumentNullException(nameof(handler));
             }
 
             return box.AddAsyncHandler(handler, channel, topic);
@@ -259,12 +259,12 @@ namespace PostalCqrsNET
         {
             if (topic == null)
             {
-                throw new ArgumentNullException("topic");
+                throw new ArgumentNullException(nameof(topic));
             }
 
             if (handler == null)
             {
-                throw new ArgumentNullException("handler");
+                throw new ArgumentNullException(nameof(handler));
             }
 
             return box.AddAsyncHandler(handler, channel, topic);

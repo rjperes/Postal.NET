@@ -1,61 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{178B5B0F-96B5-492D-9825-35C4F69FBC48}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PostalConventionsNET</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>PostalConventionsNET</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <RootNamespace>PostalConventionsNET</RootNamespace>
+    <ApplicationIcon>postal.net.ico</ApplicationIcon>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>PostalConventions.NET</PackageId>
+    <Version>1.1.0.0</Version>
+    <Product>PostalConventions.NET</Product>
+    <Authors>Ricardo Peres</Authors>
+    <Company>Ricardo Peres</Company>
+    <Description>Postal.NET is a .NET Standard library for writing decoupled applications</Description>
+    <Copyright>Copyright © Ricardo Peres 2017</Copyright>
+    <PackageLicenseUrl>https://github.com/rjperes/Postal.NET/blob/master/lgpl.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/rjperes/Postal.NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rjperes/Postal.NET</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageIconUrl>https://github.com/rjperes/Postal.NET/blob/master/postal.net.ico</PackageIconUrl>
+    <PackageTags>netcore,netstandard</PackageTags>
+    <NeutralLanguage>English</NeutralLanguage>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <None Include="project.json" />
-    <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\Postal.NET\Postal.NET.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ConventionsBox.cs" />
-    <Compile Include="ConventionsBoxExtensions.cs" />
-    <Compile Include="IConventionsBox.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Postal.NET\Postal.NET.csproj">
-      <Project>{456727dd-ed7a-4aee-834f-76cec23eb065}</Project>
-      <Name>Postal.NET</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

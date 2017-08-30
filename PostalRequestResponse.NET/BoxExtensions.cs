@@ -11,32 +11,32 @@ namespace PostalRequestResponseNET
         /// <summary>
         /// Checks if a message is a request-response one.
         /// </summary>
-        /// <param name="env">A message envelope.</param>
+        /// <param name="envelope">A message envelope.</param>
         /// <returns>True if the message is request-response, false otherwise.</returns>
-        public static bool IsRequestResponse(this Envelope env)
+        public static bool IsRequestResponse(this Envelope envelope)
         {
-            return env.Data is IRequestResponseData;
+            return envelope.Data is IRequestResponseData;
         }
 
         /// <summary>
         /// Returns the underlying data in a request-response message.
         /// </summary>
-        /// <param name="env">A message envelope.</param>
+        /// <param name="envelope">A message envelope.</param>
         /// <returns>The message data.</returns>
-        public static object Unwrap(this Envelope env)
+        public static object Unwrap(this Envelope envelope)
         {
-            return Unwrap<object>(env);
+            return Unwrap<object>(envelope);
         }
 
         /// <summary>
         /// Returns the underlying typed data in a request-response message.
         /// </summary>
         /// <typeparam name="T">The data type.</typeparam>
-        /// <param name="env">A message envelope.</param>
+        /// <param name="envelope">A message envelope.</param>
         /// <returns>The typed message data.</returns>
-        public static T Unwrap<T>(this Envelope env)
+        public static T Unwrap<T>(this Envelope envelope)
         {
-            var wrapped = env.IsRequestResponse() ? (env.Data as IRequestResponseData).Data : env.Data;
+            var wrapped = envelope.IsRequestResponse() ? (envelope.Data as IRequestResponseData).Data : envelope.Data;
             return (T) wrapped;
         }
 
@@ -94,11 +94,11 @@ namespace PostalRequestResponseNET
         /// Sends a request-response response.
         /// </summary>
         /// <param name="box">A Postal.NET box implementation.</param>
-        /// <param name="env">The request message envelope.</param>
+        /// <param name="envelope">The request message envelope.</param>
         /// <param name="data">A message.</param>
-        public static void Reply(this IBox box, Envelope env, object data)
+        public static void Reply(this IBox box, Envelope envelope, object data)
         {
-            var rrData = env.Data as IRequestResponseData;
+            var rrData = envelope.Data as IRequestResponseData;
 
             if (rrData != null)
             {

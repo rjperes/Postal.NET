@@ -17,7 +17,7 @@ namespace PostalNET
         {
             if (string.IsNullOrWhiteSpace(topic) == true)
             {
-                throw new ArgumentNullException("topic");
+                throw new ArgumentNullException(nameof(topic));
             }
 
             return new Topic(this._box, this._channel, topic);

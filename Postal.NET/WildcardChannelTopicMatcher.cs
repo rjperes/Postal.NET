@@ -14,12 +14,12 @@ namespace PostalNET
         {
             if (string.IsNullOrWhiteSpace(subscribedChannelOrTopic) == true)
             {
-                throw new ArgumentNullException("subscribedChannelOrTopic");
+                throw new ArgumentNullException(nameof(subscribedChannelOrTopic));
             }
 
             if (string.IsNullOrWhiteSpace(publishedChannelOrTopic) == true)
             {
-                throw new ArgumentNullException("publishedChannelOrTopic");
+                throw new ArgumentNullException(nameof(publishedChannelOrTopic));
             }
 
             if (publishedChannelOrTopic.Contains(Postal.All) == true)

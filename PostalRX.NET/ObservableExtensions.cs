@@ -49,7 +49,7 @@ namespace PostalRXNET
             {
                 if (topic == null)
                 {
-                    throw new ArgumentNullException("topic");
+                    throw new ArgumentNullException(nameof(topic));
                 }
 
                 this._subscription = topic.Subscribe(this.Notification);
@@ -59,18 +59,18 @@ namespace PostalRXNET
             {
                 if (box == null)
                 {
-                    throw new ArgumentNullException("box");
+                    throw new ArgumentNullException(nameof(box));
                 }
 
                 this._box = box;
                 this._subscription = this._box.Subscribe(channel, topic, this.Notification);
             }
 
-            private void Notification(Envelope env)
+            private void Notification(Envelope envelope)
             {
                 foreach (var observer in this._subscribers)
                 {
-                    observer.OnNext(env);
+                    observer.OnNext(envelope);
                 }
             }
 
@@ -78,7 +78,7 @@ namespace PostalRXNET
             {
                 if (observer == null)
                 {
-                    throw new ArgumentNullException("observer");
+                    throw new ArgumentNullException(nameof(observer));
                 }
 
                 _subscribers.AddLast(observer);

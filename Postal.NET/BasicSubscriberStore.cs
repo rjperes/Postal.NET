@@ -49,9 +49,9 @@ namespace PostalNET
                 return this._id.GetHashCode();
             }
 
-            public bool PassesCondition(Envelope env)
+            public bool PassesCondition(Envelope envelope)
             {
-                return this._condition(env);
+                return this._condition(envelope);
             }
         }
 
@@ -76,18 +76,8 @@ namespace PostalNET
 
         private readonly ConcurrentDictionary<SubscriberId, GCHandle> _subscribers = new ConcurrentDictionary<SubscriberId, GCHandle>();
 
-        public BasicSubscriberStore()
-        {
-            this.Matcher = WildcardChannelTopicMatcher.Instance;
-        }
-
-        public IChannelTopicMatcher Matcher { get; set; }
-
-        protected virtual object CreateId(string channel, string topic, Func<Envelope, bool> condition)
-        {
-            var id = new SubscriberId(channel, topic, condition, this.Matcher);
-            return id;
-        }
+        public IChannelTopicMatcher Matcher { get; set; } = WildcardChannelTopicMatcher.Instance;
+        public IPublisher Publisher { get; set; } = AsyncPublisher.Instance;
 
         public virtual IDisposable Subscribe(string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
         {
@@ -96,28 +86,39 @@ namespace PostalNET
             return new DisposableSubscription(id, this._subscribers);
         }
 
-        protected virtual IEnumerable<Action<Envelope>> GetSubscribers(Envelope env)
+        public virtual async Task PublishAsync(Envelope envelope)
+        {
+            await Task.Run(() => this.Publisher.Publish(this.GetSubscribers(envelope), envelope));
+        }
+
+        public virtual void Publish(Envelope envelope)
+        {
+            this
+                .PublishAsync(envelope)
+                .GetAwaiter()
+                .GetResult();
+        }
+
+        public virtual Envelope CreateEnvelope(string channel, string topic, object data)
+        {
+            return new Envelope(channel, topic, data);
+        }
+
+        protected virtual object CreateId(string channel, string topic, Func<Envelope, bool> condition)
+        {
+            var id = new SubscriberId(channel, topic, condition, this.Matcher);
+            return id;
+        }
+
+        protected virtual IEnumerable<Action<Envelope>> GetSubscribers(Envelope envelope)
         {
             return this._subscribers
                 .AsParallel()
                 .Where(subscriber =>
                     (subscriber.Value.IsAllocated == true) &&
-                    (this.MatchesChannelAndTopic(subscriber.Key, env.Channel, env.Topic) == true) &&
-                    (this.PassesCondition(subscriber.Key, env) == true))
+                    (this.MatchesChannelAndTopic(subscriber.Key, envelope.Channel, envelope.Topic) == true) &&
+                    (this.PassesCondition(subscriber.Key, envelope) == true))
                 .Select(subscriber => (Action<Envelope>)subscriber.Value.Target);
-        }
-
-        public virtual async Task PublishAsync(Envelope env)
-        {
-            foreach (var subscriber in this.GetSubscribers(env).AsParallel())
-            {
-                await Task.Run(() => subscriber(env));
-            }
-        }
-
-        public virtual void Publish(Envelope env)
-        {
-            this.PublishAsync(env).GetAwaiter().GetResult();
         }
 
         protected virtual bool MatchesChannelAndTopic(object id, string channel, string topic)
@@ -125,14 +126,9 @@ namespace PostalNET
             return (id as SubscriberId).MatchesChannelAndTopic(channel, topic);
         }
 
-        protected virtual bool PassesCondition(object id, Envelope env)
+        protected virtual bool PassesCondition(object id, Envelope envelope)
         {
-            return (id as SubscriberId).PassesCondition(env);
-        }
-
-        public virtual Envelope CreateEnvelope(string channel, string topic, object data)
-        {
-            return new Envelope(channel, topic, data);
+            return (id as SubscriberId).PassesCondition(envelope);
         }
     }
 }

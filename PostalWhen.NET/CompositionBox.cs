@@ -27,15 +27,15 @@ namespace PostalWhenNET
                 this._condition = condition;
             }
 
-            public bool MatchesChannelAndTopic(Envelope env)
+            public bool MatchesChannelAndTopic(Envelope envelope)
             {
-                return this._matcher.Matches(this._channel, env.Channel) == true
-                    && this._matcher.Matches(this._topic, env.Topic) == true;
+                return this._matcher.Matches(this._channel, envelope.Channel) == true
+                    && this._matcher.Matches(this._topic, envelope.Topic) == true;
             }
 
-            public bool MatchesCondition(Envelope env)
+            public bool MatchesCondition(Envelope envelope)
             {
-                return this._condition(env);
+                return this._condition(envelope);
             }
         }
 
@@ -52,7 +52,7 @@ namespace PostalWhenNET
         {
             if (box == null)
             {
-                throw new ArgumentNullException("box");
+                throw new ArgumentNullException(nameof(box));
             }
 
             this._box = box;
@@ -69,11 +69,11 @@ namespace PostalWhenNET
             this._subscription = this._box.Subscribe(Postal.All, Postal.All, this.OnReceive);
         }
 
-        private void OnReceive(Envelope env)
+        private void OnReceive(Envelope envelope)
         {
-            if (this._conditions[this._index].MatchesChannelAndTopic(env) == true)
+            if (this._conditions[this._index].MatchesChannelAndTopic(envelope) == true)
             {
-                if (this._conditions[this._index].MatchesCondition(env) == true)
+                if (this._conditions[this._index].MatchesCondition(envelope) == true)
                 {
                     if (this._index == 0)
                     {
@@ -86,7 +86,7 @@ namespace PostalWhenNET
                     {
                         if ((this._time == null) || ((DateTime.UtcNow - this._startTime) < this._time))
                         {
-                            this._subscriber(env);
+                            this._subscriber(envelope);
                         }
                     }
                     else
@@ -112,12 +112,12 @@ namespace PostalWhenNET
         {
             if (string.IsNullOrWhiteSpace(channel) == true)
             {
-                throw new ArgumentNullException("channel");
+                throw new ArgumentNullException(nameof(channel));
             }
 
             if (string.IsNullOrWhiteSpace(topic) == true)
             {
-                throw new ArgumentNullException("topic");
+                throw new ArgumentNullException(nameof(topic));
             }
 
             this._conditions.Add(new Condition(channel, topic, condition, this._matcher));
@@ -129,7 +129,7 @@ namespace PostalWhenNET
         {
             if (subscriber == null)
             {
-                throw new ArgumentNullException("subscriber");
+                throw new ArgumentNullException(nameof(subscriber));
             }
 
             if (this._conditions.Count == 0)

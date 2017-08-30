@@ -1,68 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{456727DD-ED7A-4AEE-834F-76CEC23EB065}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PostalNET</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>PostalNET</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <RootNamespace>PostalNET</RootNamespace>
+    <PackageId>Postal.NET</PackageId>
+    <Version>1.1.0.0</Version>
+    <Company>Ricardo Peres</Company>
+    <Authors>Ricardo Peres</Authors>
+    <Description>Postal.NET is a .NET Standard library for writing decoupled applications</Description>
+    <Copyright>Copyright © Ricardo Peres 2017</Copyright>
+    <PackageLicenseUrl>https://github.com/rjperes/Postal.NET/blob/master/lgpl.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/rjperes/Postal.NET</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/rjperes/Postal.NET/blob/master/postal.net.ico</PackageIconUrl>
+    <RepositoryUrl>https://github.com/rjperes/Postal.NET</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <NeutralLanguage>en</NeutralLanguage>
+    <ApplicationIcon>postal.net.ico</ApplicationIcon>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags>netcore,netstandard</PackageTags>
+    <Product>Postal.NET</Product>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="project.json" />
-    <!-- A reference to the entire .NET Framework is automatically included -->
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BasicSubscriberStore.cs" />
-    <Compile Include="Box.cs" />
-    <Compile Include="BoxExtensions.cs" />
-    <Compile Include="Channel.cs" />
-    <Compile Include="Envelope.cs" />
-    <Compile Include="IAsyncHandler.cs" />
-    <Compile Include="IBox.cs" />
-    <Compile Include="IChannel.cs" />
-    <Compile Include="IChannelTopicMatcher.cs" />
-    <Compile Include="IChannelTopicMatcherProvider.cs" />
-    <Compile Include="IHandler.cs" />
-    <Compile Include="ISubscriberStore.cs" />
-    <Compile Include="ITopic.cs" />
-    <Compile Include="Postal.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Topic.cs" />
-    <Compile Include="WildcardChannelTopicMatcher.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

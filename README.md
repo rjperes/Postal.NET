@@ -1,8 +1,9 @@
 #Postal.NET
 
 ##Introduction
-Postal.NET is a .NET portable library for writing decoupled applications. It is loosely based upon the [Postal.js](https://github.com/postaljs) JavaScript library and follows the [Domain Events](http://martinfowler.com/eaaDev/DomainEvent.html) and [Pub/Sub](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) patterns.
+Postal.NET is a .NET Standard library for writing decoupled applications. It is loosely based upon the [Postal.js](https://github.com/postaljs) JavaScript library and follows the [Domain Events](http://martinfowler.com/eaaDev/DomainEvent.html) and [Pub/Sub](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) patterns.
 It was written by [Ricardo Peres](https://github.com/rjperes) ([@rjperes75](https://twitter.com/rjperes75)).
+As of version 1.1 it now targets .NET Standard 2.0.
 
 ##Concepts
 Postal.NET uses the concepts of **channels** and **topics**. We subscribe to a topic of a channel, and we send messages to other (or possibly the same) channels and topics. The **"\*"** character means anything, so, for example, **"a.b"** and **"a.\*"** or even **"\*"** will match. There can be several simultaneous subscriptions, even to the same channel/topic pair. Postal.NET guarantees the delivery.
@@ -34,6 +35,15 @@ The public interface is decoupled from the actual implementation and it can be e
 
 You can find more examples in the [GitHub repository](https://github.com/rjperes/Postal.NET) in the **Postal.NET.Test** project.
 
+##Extensibility
+Most of the inner workings of Postal.NET can be configured by injection an implementation of the core interfaces:
+- *IBox*: The core contract for Postal.NET.
+- *IChannel*: An event channel.
+- *IChannelTopicMatcher*: How to match channels and topics.
+- *IChannelTopicMatcherProvider*: Injects a channel and topic matcher.
+- *IPublisher*:Basic contract for a message publisher.
+- *ISubscriberStore*:Actual implementation contract for Postal.NET.
+- *ITopic*: An event topic.
 
 ##Installation
 You can either:

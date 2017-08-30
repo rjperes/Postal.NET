@@ -14,7 +14,7 @@ namespace PostalConventionsNET
         {
             if (box == null)
             {
-                throw new ArgumentNullException("box");
+                throw new ArgumentNullException(nameof(box));
             }
 
             return new ConventionsBox(box);
