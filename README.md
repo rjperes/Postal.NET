@@ -1,14 +1,14 @@
-#Postal.NET
+# Postal.NET
 
-##Introduction
+## Introduction
 Postal.NET is a .NET Standard library for writing decoupled applications. It is loosely based upon the [Postal.js](https://github.com/postaljs) JavaScript library and follows the [Domain Events](http://martinfowler.com/eaaDev/DomainEvent.html) and [Pub/Sub](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) patterns.
 It was written by [Ricardo Peres](https://github.com/rjperes) ([@rjperes75](https://twitter.com/rjperes75)).
 As of version 1.1 it now targets .NET Standard 2.0.
 
-##Concepts
+## Concepts
 Postal.NET uses the concepts of **channels** and **topics**. We subscribe to a topic of a channel, and we send messages to other (or possibly the same) channels and topics. The **"\*"** character means anything, so, for example, **"a.b"** and **"a.\*"** or even **"\*"** will match. There can be several simultaneous subscriptions, even to the same channel/topic pair. Postal.NET guarantees the delivery.
 
-##Usage
+## Usage
 
     //create a subscription to a single named channel and topic pair
     using (Postal.Box.Subscribe("channel", "topic", (env) => Console.WriteLine(env.Data)))
@@ -35,7 +35,7 @@ The public interface is decoupled from the actual implementation and it can be e
 
 You can find more examples in the [GitHub repository](https://github.com/rjperes/Postal.NET) in the **Postal.NET.Test** project.
 
-##Extensibility
+## Extensibility
 Most of the inner workings of Postal.NET can be configured by injection an implementation of the core interfaces:
 - *IBox*: The core contract for Postal.NET.
 - *IChannel*: An event channel.
@@ -45,13 +45,13 @@ Most of the inner workings of Postal.NET can be configured by injection an imple
 - *ISubscriberStore*:Actual implementation contract for Postal.NET.
 - *ITopic*: An event topic.
 
-##Installation
+## Installation
 You can either:
 
 - Clone from GitHub: [http://github.com/rjperes/Postal.NET](http://github.com/rjperes/Postal.NET)
 - Install via Nuget: [https://www.nuget.org/packages/Postal.NET](https://www.nuget.org/packages/Postal.NET).
 
-##Other Projects
+## Other Projects
 
 Other projects you can find in the GitHub repository and in Nuget are:
 
@@ -62,11 +62,11 @@ Other projects you can find in the GitHub repository and in Nuget are:
 - **PostalWhen.NET**: composition of events (e.g., "do this when you receive this and that") ([Nuget](https://www.nuget.org/packages/PostalWhen.NET))
 - **Postal.NET.Test**: working examples
 
-##Contacts
+## Contacts
 If you see any value in this and wish to send me your comments, please do so through [GitHub](https://github.com/rjperes/Postal.NET). Questions and suggestions are welcome too!
 
-##Licenses
+## Licenses
 This software is distributed under the terms of the Free Software Foundation Lesser GNU Public License (LGPL), version 2.1 (see lgpl.txt).
 
-##Copyright
+## Copyright
 You are free to use this as you wish, but I ask you to please send me a note about it.
