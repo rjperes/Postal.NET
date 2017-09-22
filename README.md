@@ -60,7 +60,9 @@ Other projects you can find in the GitHub repository and in Nuget are:
 - **PostalRequestResponse.NET**: implementation of request-response pattern ([Nuget](https://www.nuget.org/packages/PostalRequestResponse.NET))
 - **PostalRX.NET**: Reactive Extensions ([RX.NET](https://github.com/Reactive-Extensions/Rx.NET)) adapter ([Nuget](https://www.nuget.org/packages/PostalRX.NET))
 - **PostalWhen.NET**: composition of events (e.g., "do this when you receive this and that") ([Nuget](https://www.nuget.org/packages/PostalWhen.NET))
+- **PostalInterceptor.NET**: interception of messages (e.g., before and after) ([Nuget](https://www.nuget.org/packages/PostalInterceptor.NET))
 - **Postal.NET.Test**: working examples
+- **Postal.NET.UnitTests**: unit tests
 
 ## Contacts
 If you see any value in this and wish to send me your comments, please do so through [GitHub](https://github.com/rjperes/Postal.NET). Questions and suggestions are welcome too!
