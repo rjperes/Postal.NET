@@ -1,19 +1,36 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>PostalNET.Test</AssemblyName>
-    <RootNamespace>PostalNET.Test</RootNamespace>
-    <ApplicationIcon>postal.net.ico</ApplicationIcon>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
+		<AssemblyName>PostalNET.Test</AssemblyName>
+		<RootNamespace>PostalNET.Test</RootNamespace>
+		<ApplicationIcon>postal.net.ico</ApplicationIcon>
+		<OutputType>Exe</OutputType>
+		<StartupObject>PostalNET.Test.Program</StartupObject>
+		<Version>1.2.0.0</Version>
+		<Product>Postal.NET</Product>
+		<Authors>Ricardo Peres</Authors>
+		<Company>Ricardo Peres</Company>
+		<Description>Postal.NET is a .NET Standard library for writing decoupled applications</Description>
+		<Copyright>Copyright © Ricardo Peres 2017</Copyright>
+		<PackageLicenseUrl>https://github.com/rjperes/Postal.NET/blob/master/lgpl.txt</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/rjperes/Postal.NET</PackageProjectUrl>
+		<PackageIconUrl>https://github.com/rjperes/Postal.NET/blob/master/postal.net.ico</PackageIconUrl>
+		<RepositoryUrl>https://github.com/rjperes/Postal.NET</RepositoryUrl>
+		<RepositoryType>Git</RepositoryType>
+		<PackageTags>netcore,netstandard</PackageTags>
+		<NeutralLanguage>English</NeutralLanguage>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Postal.NET\Postal.NET.csproj" />
-    <ProjectReference Include="..\PostalConventions.NET\PostalConventions.NET.csproj" />
-    <ProjectReference Include="..\PostalCqrs.NET\PostalCqrs.NET.csproj" />
-    <ProjectReference Include="..\PostalRequestResponse.NET\PostalRequestResponse.NET.csproj" />
-    <ProjectReference Include="..\PostalRX.NET\PostalRX.NET.csproj" />
-    <ProjectReference Include="..\PostalWhen.NET\PostalWhen.NET.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Postal.NET\Postal.NET.csproj" />
+		<ProjectReference Include="..\PostalConventions.NET\PostalConventions.NET.csproj" />
+		<ProjectReference Include="..\PostalCqrs.NET\PostalCqrs.NET.csproj" />
+		<ProjectReference Include="..\PostalInterceptor.NET\PostalInterceptor.NET.csproj" />
+		<ProjectReference Include="..\PostalRequestResponse.NET\PostalRequestResponse.NET.csproj" />
+		<ProjectReference Include="..\PostalRX.NET\PostalRX.NET.csproj" />
+		<ProjectReference Include="..\PostalWhen.NET\PostalWhen.NET.csproj" />
+	</ItemGroup>
 
 </Project>

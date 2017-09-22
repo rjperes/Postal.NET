@@ -1,9 +1,10 @@
-﻿using PostalNET;
-using System;
-using PostalRequestResponseNET;
+﻿using System;
 using System.Threading.Tasks;
+using PostalNET;
+using PostalNET.Cqrs;
+using PostalNET.RequestResponse;
 
-namespace PostalCqrsNET
+namespace PostalNET.Cqrs
 {
     /// <summary>
     /// Extensions for working with commands and queries (CQRS).

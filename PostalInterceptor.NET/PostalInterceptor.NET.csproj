@@ -2,31 +2,30 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>PostalNET.Cqrs</AssemblyName>
-    <RootNamespace>PostalNET.Cqrs</RootNamespace>
+    <AssemblyName>PostalNET.Interceptor</AssemblyName>
+    <RootNamespace>PostalNET.Interceptor</RootNamespace>
     <ApplicationIcon>postal.net.ico</ApplicationIcon>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>PostalCqrs.NET</PackageId>
-    <Version>1.1.0.0</Version>
+    <PackageId>PostalInterceptor.NET</PackageId>
+    <Version>1.2.0.0</Version>
     <Authors>Ricardo Peres</Authors>
     <Company>Ricardo Peres</Company>
-    <Product>PostalCqrs.NET</Product>
+    <Product>Postal.NET</Product>
     <Description>Postal.NET is a .NET Standard library for writing decoupled applications</Description>
     <Copyright>Copyright © Ricardo Peres 2017</Copyright>
     <PackageLicenseUrl>https://github.com/rjperes/Postal.NET/blob/master/lgpl.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/rjperes/Postal.NET</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/rjperes/Postal.NET</RepositoryUrl>
     <PackageIconUrl>https://github.com/rjperes/Postal.NET/blob/master/postal.net.ico</PackageIconUrl>
+    <RepositoryUrl>https://github.com/rjperes/Postal.NET</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <PackageTags>netcore,netstandard,cqrs</PackageTags>
-    <NeutralLanguage>en</NeutralLanguage>
+    <PackageTags>netcore,netstandard</PackageTags>
+    <NeutralLanguage>English</NeutralLanguage>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyVersion>1.2.0.0</AssemblyVersion>
     <FileVersion>1.2.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Postal.NET\Postal.NET.csproj" />
-    <ProjectReference Include="..\PostalRequestResponse.NET\PostalRequestResponse.NET.csproj" />
   </ItemGroup>
 
 </Project>

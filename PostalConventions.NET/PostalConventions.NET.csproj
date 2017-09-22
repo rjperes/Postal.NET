@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>PostalConventionsNET</AssemblyName>
-    <RootNamespace>PostalConventionsNET</RootNamespace>
+    <AssemblyName>PostalNET.Conventions</AssemblyName>
+    <RootNamespace>PostalNET.Conventions</RootNamespace>
     <ApplicationIcon>postal.net.ico</ApplicationIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>PostalConventions.NET</PackageId>
-    <Version>1.1.0.0</Version>
+    <Version>1.2.0.0</Version>
     <Product>PostalConventions.NET</Product>
     <Authors>Ricardo Peres</Authors>
     <Company>Ricardo Peres</Company>

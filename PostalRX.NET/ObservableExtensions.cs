@@ -1,8 +1,7 @@
-﻿using PostalNET;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace PostalRXNET
+namespace PostalNET.RX
 {
     public static class ObservableExtensions
     {

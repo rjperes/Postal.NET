@@ -5,7 +5,7 @@
     <AssemblyName>PostalNET</AssemblyName>
     <RootNamespace>PostalNET</RootNamespace>
     <PackageId>Postal.NET</PackageId>
-    <Version>1.1.0.0</Version>
+    <Version>1.2.0.0</Version>
     <Company>Ricardo Peres</Company>
     <Authors>Ricardo Peres</Authors>
     <Description>Postal.NET is a .NET Standard library for writing decoupled applications</Description>
@@ -20,6 +20,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>netcore,netstandard</PackageTags>
     <Product>Postal.NET</Product>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

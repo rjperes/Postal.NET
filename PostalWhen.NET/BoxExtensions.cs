@@ -1,7 +1,6 @@
-﻿using PostalNET;
-using System;
+﻿using System;
 
-namespace PostalWhenNET
+namespace PostalNET.When
 {
     public static class BoxExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PostalRequestResponseNET
+namespace PostalNET.RequestResponse
 {
     internal interface IRequestResponseData
     {

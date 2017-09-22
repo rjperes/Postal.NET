@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading;
-using PostalNET;
 
-namespace PostalRequestResponseNET
+namespace PostalNET.RequestResponse
 {
     public static class BoxExtensions
     {

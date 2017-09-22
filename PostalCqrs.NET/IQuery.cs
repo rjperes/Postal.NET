@@ -1,4 +1,4 @@
-﻿namespace PostalCqrsNET
+﻿namespace PostalNET.Cqrs
 {
     /// <summary>
     /// A query message.

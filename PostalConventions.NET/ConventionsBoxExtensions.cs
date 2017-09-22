@@ -1,7 +1,6 @@
 ﻿using System;
-using PostalNET;
 
-namespace PostalConventionsNET
+namespace PostalNET.Conventions
 {
     public static class ConventionsBoxExtensions
     {

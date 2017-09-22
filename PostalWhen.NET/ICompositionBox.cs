@@ -1,8 +1,10 @@
-﻿using PostalNET;
-using System;
+﻿using System;
 
-namespace PostalWhenNET
+namespace PostalNET.When
 {
+    /// <summary>
+    /// The contract for a composable <see cref="IBox"/>.
+    /// </summary>
     public interface ICompositionBox
     {
         ICompositionBox And(string channel, string topic, Func<Envelope, bool> condition = null);

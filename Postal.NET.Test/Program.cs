@@ -1,12 +1,13 @@
-﻿using PostalConventionsNET;
-using PostalRXNET;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
-using PostalWhenNET;
-using PostalRequestResponseNET;
 using System.Threading.Tasks;
+using PostalNET.Conventions;
+using PostalNET.RX;
+using PostalNET.When;
+using PostalNET.RequestResponse;
+using PostalNET.Interceptor;
 
 namespace PostalNET.Test
 {
@@ -316,6 +317,24 @@ namespace PostalNET.Test
             }
         }
 
+        static void TestInterception()
+        {
+            using (var before = new ManualResetEvent(false))
+            using (var after = new ManualResetEvent(false))
+            {
+                var box = Postal
+                    .Box
+                    .InterceptWith(env => { before.Set(); }, env => { after.Set(); });
+
+                using (box.Subscribe("channel", "topic", env => { }))
+                {
+                    box.Publish("channel", "topic", "Hello, World!");
+
+                    WaitHandle.WaitAll(new[] { before, after });
+                }
+            }
+        }
+
         static void Main()
         {
             //These are not unit tests, just samples of how to use Postal.NET
@@ -340,6 +359,7 @@ namespace PostalNET.Test
             TestDisposition();
             TestCatchAll();
             TestCatchSome();
+            TestInterception();
 
             Console.ReadLine();
         }

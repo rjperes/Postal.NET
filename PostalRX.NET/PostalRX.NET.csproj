@@ -3,12 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <ApplicationIcon>postal.net.ico</ApplicationIcon>
-    <AssemblyName>PostalRXNET</AssemblyName>
-    <RootNamespace>PostalRXNET</RootNamespace>
+    <AssemblyName>PostalNET.RX</AssemblyName>
+    <RootNamespace>PostalNET.RX</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>PostalRX.NET</PackageId>
     <Product>PostalRX.NET</Product>
-    <Version>1.1.0.0</Version>
+    <Version>1.2.0.0</Version>
     <Authors>Ricardo Peres</Authors>
     <Company>Ricardo Peres</Company>
     <Description>Postal.NET is a .NET Standard library for writing decoupled applications</Description>
@@ -20,6 +20,8 @@
     <RepositoryType>Git</RepositoryType>
     <PackageTags>netcore,netstandard,rx</PackageTags>
     <NeutralLanguage>English</NeutralLanguage>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

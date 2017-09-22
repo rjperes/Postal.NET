@@ -5,6 +5,20 @@
     <AssemblyName>PostalNET.UnitTests</AssemblyName>
     <RootNamespace>PostalNET.UnitTests</RootNamespace>
     <ApplicationIcon>postal.net.ico</ApplicationIcon>
+    <Version>1.2.0.0</Version>
+    <Authors>Ricardo Peres</Authors>
+    <Company>Ricardo Peres</Company>
+    <Product>Postal.NET</Product>
+    <Description>Postal.NET is a .NET Standard library for writing decoupled applications</Description>
+    <Copyright>Copyright © Ricardo Peres 2017</Copyright>
+    <PackageLicenseUrl>https://github.com/rjperes/Postal.NET/blob/master/lgpl.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/rjperes/Postal.NET</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/rjperes/Postal.NET/blob/master/postal.net.ico</PackageIconUrl>
+    <RepositoryUrl>https://github.com/rjperes/Postal.NET</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>netcore,netstandard,unittest</PackageTags>
+    <NeutralLanguage>English</NeutralLanguage>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

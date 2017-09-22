@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postal.NET", "Postal.NET\Postal.NET.csproj", "{8B50E369-8D5D-49B7-A686-41BDC0678B48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Postal.NET", "Postal.NET\Postal.NET.csproj", "{8B50E369-8D5D-49B7-A686-41BDC0678B48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postal.NET.Test", "Postal.NET.Test\Postal.NET.Test.csproj", "{E5C8062E-BDA5-4C16-AA02-315A300D43E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Postal.NET.Test", "Postal.NET.Test\Postal.NET.Test.csproj", "{E5C8062E-BDA5-4C16-AA02-315A300D43E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postal.NET.UnitTests", "Postal.NET.UnitTests\Postal.NET.UnitTests.csproj", "{8E51C6E4-28CF-4978-A5D9-5CED10466C80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Postal.NET.UnitTests", "Postal.NET.UnitTests\Postal.NET.UnitTests.csproj", "{8E51C6E4-28CF-4978-A5D9-5CED10466C80}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C07E060B-A29B-4456-BBDC-FA1FD6B5CFBE}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,15 +18,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostalWhen.NET", "PostalWhen.NET\PostalWhen.NET.csproj", "{CC9E671E-2486-4827-A88A-A626A1A1680D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostalWhen.NET", "PostalWhen.NET\PostalWhen.NET.csproj", "{CC9E671E-2486-4827-A88A-A626A1A1680D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostalConventions.NET", "PostalConventions.NET\PostalConventions.NET.csproj", "{B7497F5C-8C77-42CC-9452-D52A4CD73185}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostalConventions.NET", "PostalConventions.NET\PostalConventions.NET.csproj", "{B7497F5C-8C77-42CC-9452-D52A4CD73185}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostalCqrs.NET", "PostalCqrs.NET\PostalCqrs.NET.csproj", "{3CF403D5-E35E-44BC-95A0-45E4EC194073}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostalCqrs.NET", "PostalCqrs.NET\PostalCqrs.NET.csproj", "{3CF403D5-E35E-44BC-95A0-45E4EC194073}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostalRequestResponse.NET", "PostalRequestResponse.NET\PostalRequestResponse.NET.csproj", "{FE91308A-51F4-4A32-B482-9AC79AE6F735}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostalRequestResponse.NET", "PostalRequestResponse.NET\PostalRequestResponse.NET.csproj", "{FE91308A-51F4-4A32-B482-9AC79AE6F735}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostalRX.NET", "PostalRX.NET\PostalRX.NET.csproj", "{7C83C252-77C4-437C-AF12-6AF431A34BAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostalRX.NET", "PostalRX.NET\PostalRX.NET.csproj", "{7C83C252-77C4-437C-AF12-6AF431A34BAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostalInterceptor.NET", "PostalInterceptor.NET\PostalInterceptor.NET.csproj", "{D72281B4-32DF-4E9B-B308-4A481AC1DD00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +68,10 @@ Global
 		{7C83C252-77C4-437C-AF12-6AF431A34BAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C83C252-77C4-437C-AF12-6AF431A34BAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C83C252-77C4-437C-AF12-6AF431A34BAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D72281B4-32DF-4E9B-B308-4A481AC1DD00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D72281B4-32DF-4E9B-B308-4A481AC1DD00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D72281B4-32DF-4E9B-B308-4A481AC1DD00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D72281B4-32DF-4E9B-B308-4A481AC1DD00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

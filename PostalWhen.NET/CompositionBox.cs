@@ -1,8 +1,7 @@
-﻿using PostalNET;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace PostalWhenNET
+namespace PostalNET.When
 {
     sealed class CompositionBox : ICompositionBox
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace PostalConventionsNET
+namespace PostalNET.Conventions
 {
     /// <summary>
     /// A Postal.NET conventional box.
