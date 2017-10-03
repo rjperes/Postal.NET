@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -7,7 +7,7 @@
     <ApplicationIcon>postal.net.ico</ApplicationIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>PostalCqrs.NET</PackageId>
-    <Version>1.1.0.0</Version>
+    <Version>1.2.0.0</Version>
     <Authors>Ricardo Peres</Authors>
     <Company>Ricardo Peres</Company>
     <Product>PostalCqrs.NET</Product>
@@ -16,7 +16,7 @@
     <PackageLicenseUrl>https://github.com/rjperes/Postal.NET/blob/master/lgpl.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/rjperes/Postal.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/rjperes/Postal.NET</RepositoryUrl>
-    <PackageIconUrl>https://github.com/rjperes/Postal.NET/blob/master/postal.net.ico</PackageIconUrl>
+    <PackageIconUrl>https://github.com/rjperes/Postal.NET/blob/master/postal.net.ico?raw=true</PackageIconUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>netcore,netstandard,cqrs</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>

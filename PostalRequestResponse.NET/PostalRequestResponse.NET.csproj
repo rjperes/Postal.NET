@@ -17,7 +17,7 @@
     <PackageProjectUrl>https://github.com/rjperes/Postal.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/rjperes/Postal.NET</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <PackageIconUrl>https://github.com/rjperes/Postal.NET/blob/master/postal.net.ico</PackageIconUrl>
+    <PackageIconUrl>https://github.com/rjperes/Postal.NET/blob/master/postal.net.ico?raw=true</PackageIconUrl>
     <PackageTags>netcore,netstandard,request-response</PackageTags>
     <NeutralLanguage>English</NeutralLanguage>
   </PropertyGroup>

@@ -14,7 +14,7 @@
     <Copyright>Copyright © Ricardo Peres 2017</Copyright>
     <PackageLicenseUrl>https://github.com/rjperes/Postal.NET/blob/master/lgpl.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/rjperes/Postal.NET</PackageProjectUrl>
-    <PackageIconUrl>https://github.com/rjperes/Postal.NET/blob/master/postal.net.ico</PackageIconUrl>
+    <PackageIconUrl>https://github.com/rjperes/Postal.NET/blob/master/postal.net.ico?raw=true</PackageIconUrl>
     <RepositoryUrl>https://github.com/rjperes/Postal.NET</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>netcore,netstandard</PackageTags>
