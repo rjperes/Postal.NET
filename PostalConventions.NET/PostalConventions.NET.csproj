@@ -20,7 +20,15 @@
     <PackageIconUrl>https://github.com/rjperes/Postal.NET/blob/master/postal.net.ico?raw=true</PackageIconUrl>
     <PackageTags>netcore,netstandard</PackageTags>
     <NeutralLanguage>English</NeutralLanguage>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/> 
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Postal.NET\Postal.NET.csproj" />
