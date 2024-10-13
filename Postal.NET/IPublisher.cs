@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace PostalNET
 {
@@ -8,6 +10,6 @@ namespace PostalNET
     /// </summary>
     public interface IPublisher
     {
-        void Publish(IEnumerable<Action<Envelope>> destinations, Envelope envelope);
+        Task PublishAsync(IEnumerable<Action<Envelope>> destinations, Envelope envelope, CancellationToken cancellationToken = default);
     }
 }

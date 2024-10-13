@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PostalNET
@@ -34,9 +35,7 @@ namespace PostalNET
 
             public override bool Equals(object obj)
             {
-                var other = obj as SubscriberId;
-
-                if (other == null)
+                if (obj is not SubscriberId other)
                 {
                     return false;
                 }
@@ -74,7 +73,7 @@ namespace PostalNET
             }
         }
 
-        private readonly ConcurrentDictionary<SubscriberId, GCHandle> _subscribers = new ConcurrentDictionary<SubscriberId, GCHandle>();
+        private readonly ConcurrentDictionary<SubscriberId, GCHandle> _subscribers = new();
 
         public IChannelTopicMatcher Matcher { get; set; } = WildcardChannelTopicMatcher.Instance;
         public IPublisher Publisher { get; set; } = AsyncPublisher.Instance;
@@ -86,17 +85,9 @@ namespace PostalNET
             return new DisposableSubscription(id, this._subscribers);
         }
 
-        public virtual async Task PublishAsync(Envelope envelope)
+        public virtual async Task PublishAsync(Envelope envelope, CancellationToken cancellationToken = default)
         {
-            await Task.Run(() => this.Publisher.Publish(this.GetSubscribers(envelope), envelope));
-        }
-
-        public virtual void Publish(Envelope envelope)
-        {
-            this
-                .PublishAsync(envelope)
-                .GetAwaiter()
-                .GetResult();
+            await this.Publisher.PublishAsync(this.GetSubscribers(envelope), envelope, cancellationToken);
         }
 
         public virtual Envelope CreateEnvelope(string channel, string topic, object data)

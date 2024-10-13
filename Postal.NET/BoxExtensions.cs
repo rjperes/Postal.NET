@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace PostalNET
 {
@@ -12,6 +14,7 @@ namespace PostalNET
 
             public MultiSubscription(IEnumerable<IDisposable> subscriptions)
             {
+                ArgumentNullException.ThrowIfNull(subscriptions, nameof(subscriptions));
                 this._subscriptions = subscriptions;
             }
 
@@ -35,6 +38,10 @@ namespace PostalNET
         /// <returns></returns>
         public static IDisposable SubscribeMultiple(this IBox box, string channels, string topics, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
         {
+            ArgumentNullException.ThrowIfNull(box, nameof(box));
+            ArgumentException.ThrowIfNullOrWhiteSpace(channels, nameof(channels));
+            ArgumentException.ThrowIfNullOrWhiteSpace(topics, nameof(topics));
+
             var subscriptions = new List<IDisposable>();
 
             foreach (var channel in channels.Split(',').Select(x => x.Trim()).Distinct())
@@ -45,7 +52,7 @@ namespace PostalNET
                 }
             }
 
-            if (subscriptions.Any() == false)
+            if (subscriptions.Count == 0)
             {
                 throw new InvalidOperationException("No subscriptions supplied");
             }
@@ -63,15 +70,10 @@ namespace PostalNET
         /// <param name="condition">An optional filtering condition.</param>
         public static void Once(this IBox box, string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
         {
-            if (box == null)
-            {
-                throw new ArgumentNullException(nameof(box));
-            }
-
-            if (subscriber == null)
-            {
-                throw new ArgumentNullException(nameof(subscriber));
-            }
+            ArgumentNullException.ThrowIfNull(box, nameof(box));
+            ArgumentException.ThrowIfNullOrWhiteSpace(channel, nameof(channel));
+            ArgumentException.ThrowIfNullOrWhiteSpace(topic, nameof(topic));
+            ArgumentNullException.ThrowIfNull(subscriber, nameof(subscriber));
 
             IDisposable subscription = null;
 
@@ -93,42 +95,18 @@ namespace PostalNET
         /// <param name="box">A Postal.NET implementation.</param>
         /// <param name="channel">The event channel.</param>
         /// <param name="topic">The event topic.</param>
-        /// <param name="datas">The event payload.</param>
-        public static void MultiPublish(this IBox box, string channel, string topic, params object[] datas)
-        {
-            if (box == null)
-            {
-                throw new ArgumentNullException(nameof(box));
-            }
-
-            foreach (var data in datas)
-            {
-                box.Publish(channel, topic, data);
-            }
-        }
-
-        /// <summary>
-        /// Publishes multiple events at the same time.
-        /// </summary>
-        /// <param name="box">A Postal.NET implementation.</param>
-        /// <param name="channel">The event channel.</param>
-        /// <param name="topic">The event topic.</param>
         /// <param name="factory">An event payload factory.</param>
-        public static void MultiPublish(this IBox box, string channel, string topic, Func<object> factory)
+        public static async Task MultiPublish(this IBox box, string channel, string topic, Func<object> factory, CancellationToken cancellationToken = default)
         {
-            if (box == null)
-            {
-                throw new ArgumentNullException(nameof(box));
-            }
+            ArgumentNullException.ThrowIfNull(box, nameof(box));
+            ArgumentNullException.ThrowIfNull(factory, nameof(factory));
+            ArgumentException.ThrowIfNullOrEmpty(channel, nameof(channel));
+            ArgumentException.ThrowIfNullOrEmpty(topic, nameof(topic));
 
-            if (factory == null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
 
             for (var data = factory(); data != null; data = factory())
             {
-                box.Publish(channel, topic, data);
+                await box.PublishAsync(channel, topic, data, cancellationToken);
             }
         }
 
@@ -143,12 +121,11 @@ namespace PostalNET
         /// <returns>A subscription.</returns>
         public static IDisposable Subscribe<T>(this IBox box, string channel, string topic, Action<T> subscriber)
         {
-            if (box == null)
-            {
-                throw new ArgumentNullException(nameof(box));
-            }
+            ArgumentNullException.ThrowIfNull(box, nameof(box));
+            ArgumentException.ThrowIfNullOrWhiteSpace(channel, nameof(channel));
+            ArgumentException.ThrowIfNullOrWhiteSpace(topic, nameof(topic));
 
-            return box.Subscribe(channel, topic, (env) => subscriber((T) env.Data), (env) => env.Data is T);
+            return box.Subscribe(channel, topic, (env) => subscriber((T)env.Data), (env) => env.Data is T);
         }
 
         /// <summary>
@@ -159,15 +136,8 @@ namespace PostalNET
         /// <returns>The channel.</returns>
         public static IChannel Channel(this IBox box, string channel)
         {
-            if (box == null)
-            {
-                throw new ArgumentNullException(nameof(box));
-            }
-
-            if (string.IsNullOrWhiteSpace(channel) == true)
-            {
-                throw new ArgumentNullException(nameof(channel));
-            }
+            ArgumentNullException.ThrowIfNull(box, nameof(box));
+            ArgumentException.ThrowIfNullOrWhiteSpace(channel, nameof(channel));
 
             return new Channel(box, channel);
         }
@@ -179,10 +149,7 @@ namespace PostalNET
         /// <returns>The universal topic of the universal channel.</returns>
         public static ITopic AnyChannelAndTopic(this IBox box)
         {
-            if (box == null)
-            {
-                throw new ArgumentNullException(nameof(box));
-            }
+            ArgumentNullException.ThrowIfNull(box, nameof(box));
 
             return AnyChannel(box).AnyTopic();
         }
@@ -194,10 +161,7 @@ namespace PostalNET
         /// <returns>The universal channel.</returns>
         public static IChannel AnyChannel(this IBox box)
         {
-            if (box == null)
-            {
-                throw new ArgumentNullException(nameof(box));
-            }
+            ArgumentNullException.ThrowIfNull(box, nameof(box));
 
             return Channel(box, Postal.All);
         }
@@ -209,10 +173,7 @@ namespace PostalNET
         /// <returns>The universal topic of the given channel.</returns>
         public static ITopic AnyTopic(this IChannel channel)
         {
-            if (channel == null)
-            {
-                throw new ArgumentNullException(nameof(channel));
-            }
+            ArgumentNullException.ThrowIfNull(channel, nameof(channel));
 
             return channel.Topic(Postal.All);
         }
@@ -228,6 +189,9 @@ namespace PostalNET
         /// <returns>A subscription.</returns>
         public static IDisposable AddHandler<T>(this IBox box, IHandler<T> handler, string channel = null, string topic = null)
         {
+            ArgumentNullException.ThrowIfNull(box, nameof(box));
+            ArgumentNullException.ThrowIfNull(handler, nameof(handler));
+
             if (channel == string.Empty)
             {
                 channel = null;
@@ -255,6 +219,8 @@ namespace PostalNET
         /// <returns>A subscription.</returns>
         public static IDisposable AddAsyncHandler<T>(this IBox box, IAsyncHandler<T> handler, string channel = null, string topic = null)
         {
+            ArgumentNullException.ThrowIfNull(box, nameof(box));
+
             if (channel == string.Empty)
             {
                 channel = null;

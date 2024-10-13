@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PostalNET.Conventions
@@ -9,19 +10,12 @@ namespace PostalNET.Conventions
     public interface IConventionsBox
     {
         /// <summary>
-        /// Publishes a message based upon conventions.
-        /// </summary>
-        /// <typeparam name="T">A message type.</typeparam>
-        /// <param name="data">A message.</param>
-        void Publish<T>(T data);
-
-        /// <summary>
         /// Publishes a message based upon conventions asynchronously.
         /// </summary>
         /// <typeparam name="T">A message type.</typeparam>
         /// <param name="data">A message.</param>
         /// <returns>A task.</returns>
-        Task PublishAsync<T>(T data);
+        Task PublishAsync<T>(T data, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Subscribes to topics based on conventions.

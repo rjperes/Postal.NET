@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PostalNET.Interceptor
@@ -21,7 +22,7 @@ namespace PostalNET.Interceptor
             this._before = before;
         }
 
-        public void Publish(string channel, string topic, object data)
+        public async Task PublishAsync(string channel, string topic, object data, CancellationToken cancellationToken = default)
         {
             var env = new Envelope(channel, topic, data);
 
@@ -30,31 +31,12 @@ namespace PostalNET.Interceptor
                 this._before(env);
             }
 
-            this._box.Publish(channel, topic, data);
+            await this._box.PublishAsync(channel, topic, data);
 
             if (this._after != null)
             {
                 this._after(env);
             }
-        }
-
-        public Task PublishAsync(string channel, string topic, object data)
-        {
-            var env = new Envelope(channel, topic, data);
-
-            if (this._before != null)
-            {
-                this._before(env);
-            }
-
-            var task = this._box.PublishAsync(channel, topic, data);
-
-            if (this._after != null)
-            {
-                this._after(env);
-            }
-
-            return task;
         }
 
         public IDisposable Subscribe(string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)

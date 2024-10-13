@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Postal.NET", "Postal.NET\Postal.NET.csproj", "{8B50E369-8D5D-49B7-A686-41BDC0678B48}"
 EndProject
@@ -11,6 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Postal.NET.UnitTests", "Pos
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C07E060B-A29B-4456-BBDC-FA1FD6B5CFBE}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		gfdl.txt = gfdl.txt
 		lgpl.txt = lgpl.txt
 		postal.net.ico = postal.net.ico
@@ -28,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostalRequestResponse.NET",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostalRX.NET", "PostalRX.NET\PostalRX.NET.csproj", "{7C83C252-77C4-437C-AF12-6AF431A34BAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostalInterceptor.NET", "PostalInterceptor.NET\PostalInterceptor.NET.csproj", "{D72281B4-32DF-4E9B-B308-4A481AC1DD00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostalInterceptor.NET", "PostalInterceptor.NET\PostalInterceptor.NET.csproj", "{D72281B4-32DF-4E9B-B308-4A481AC1DD00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

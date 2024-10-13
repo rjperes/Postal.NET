@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <AssemblyName>PostalNET.Cqrs</AssemblyName>
     <RootNamespace>PostalNET.Cqrs</RootNamespace>
     <ApplicationIcon>postal.net.ico</ApplicationIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>PostalCqrs.NET</PackageId>
-    <Version>1.2.0.0</Version>
+    <Version>2.0.0.0</Version>
     <Authors>Ricardo Peres</Authors>
     <Company>Ricardo Peres</Company>
     <Product>PostalCqrs.NET</Product>
@@ -20,8 +20,8 @@
     <RepositoryType>Git</RepositoryType>
     <PackageTags>netcore,netstandard,cqrs</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <FileVersion>1.2.0.0</FileVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
@@ -29,7 +29,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/> 
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" /> 
   </ItemGroup>
 
   <ItemGroup>

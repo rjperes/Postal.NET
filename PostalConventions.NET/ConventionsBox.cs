@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PostalNET.Conventions
@@ -15,32 +16,26 @@ namespace PostalNET.Conventions
 
         public ConventionsBox(IBox box)
         {
+            ArgumentNullException.Equals(box, nameof(box));
             this._box = box;
             this._condition = (env) => true;
         }
 
         public IDisposable Subscribe(string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
         {
+            ArgumentNullException.ThrowIfNull(subscriber, nameof(subscriber));
             return this._box.Subscribe(channel, topic, subscriber, (env) => condition(env) && this._condition(env));
         }
 
-        public void Publish(string channel, string topic, object data)
+        public async Task PublishAsync(string channel, string topic, object data, CancellationToken cancellationToken = default)
         {
-            this._box.Publish(channel, topic, data);
-        }
-
-        public async Task PublishAsync(string channel, string topic, object data)
-        {
-            await this._box.PublishAsync(channel, topic, data);
+            await this._box.PublishAsync(channel, topic, data, cancellationToken);
         }
 
         public IConventionsBox AddConditionConvention<T>(Func<T, bool> convention)
         {
-            if (convention == null)
-            {
-                throw new ArgumentNullException("convention");
-            }
-
+            ArgumentNullException.Equals(convention, nameof(convention));
+           
             this._condition = (data) => (data is T) && (convention((T)data));
 
             return this;
@@ -48,18 +43,21 @@ namespace PostalNET.Conventions
 
         public IConventionsBox AddChannelConvention<T>(Func<T, string> convention)
         {
+            ArgumentNullException.Equals(convention, nameof(convention));
             this._channelConventions[typeof (T)] = data => convention((T)data);
             return this;
         }
 
         public IConventionsBox AddTopicConvention<T>(Func<T, string> convention)
         {
+            ArgumentNullException.Equals(convention, nameof(convention));
             this._topicConventions[typeof (T)] = data => convention((T)data);
             return this;
         }
 
         public IDisposable Subscribe<T>(Action<T> subscriber)
         {
+            ArgumentNullException.Equals(subscriber, nameof(subscriber));
             var subscription = this._box.Subscribe(Postal.All, Postal.All, (env) =>
             {
                 if (this._condition(env) == true)
@@ -74,20 +72,12 @@ namespace PostalNET.Conventions
             return subscription;
         }
 
-        public void Publish<T>(T data)
+        public async Task PublishAsync<T>(T data, CancellationToken cancellationToken = default)
         {
             var channel = this.FindChannel(data);
             var topic = this.FindTopic(data);
 
-            this.Publish(channel, topic, data);
-        }
-
-        public async Task PublishAsync<T>(T data)
-        {
-            var channel = this.FindChannel(data);
-            var topic = this.FindTopic(data);
-
-            await this.PublishAsync(channel, topic, data);
+            await this.PublishAsync(channel, topic, data, cancellationToken);
         }
 
         private int Distance(Type source, Type target)

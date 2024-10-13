@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace PostalNET.RequestResponse
 {
@@ -48,7 +49,7 @@ namespace PostalNET.RequestResponse
         /// <param name="data">The message.</param>
         /// <param name="delay">An optional delay.</param>
         /// <returns>The response.</returns>
-        public static object Request(this IBox box, string channel, string topic, object data, TimeSpan? delay = null)
+        public static async Task<object> Request(this IBox box, string channel, string topic, object data, TimeSpan? delay = null)
         {
             var correlationId = Guid.NewGuid();
             object response = null;
@@ -66,7 +67,7 @@ namespace PostalNET.RequestResponse
                     evt.Set();
                 }))
                 {
-                    box.PublishAsync(channel, topic, new RequestResponseData(data, correlationId));
+                    await box.PublishAsync(channel, topic, new RequestResponseData(data, correlationId));
                     evt.WaitOne(delay.Value);
                 }
             }
@@ -84,9 +85,10 @@ namespace PostalNET.RequestResponse
         /// <param name="data">The message.</param>
         /// <param name="delay">An optional delay.</param>
         /// <returns>The typed response.</returns>
-        public static T Request<T>(this IBox box, string channel, string topic, object data, TimeSpan? delay = null)
+        public static async Task<T> Request<T>(this IBox box, string channel, string topic, object data, TimeSpan? delay = null)
         {
-            return (T)Request(box, channel, topic, data, delay);
+            var response = await Request(box, channel, topic, data, delay);
+            return (T) response;
         }
 
         /// <summary>
@@ -95,13 +97,13 @@ namespace PostalNET.RequestResponse
         /// <param name="box">A Postal.NET box implementation.</param>
         /// <param name="envelope">The request message envelope.</param>
         /// <param name="data">A message.</param>
-        public static void Reply(this IBox box, Envelope envelope, object data)
+        public static async Task Reply(this IBox box, Envelope envelope, object data)
         {
             var rrData = envelope.Data as IRequestResponseData;
 
             if (rrData != null)
             {
-                box.PublishAsync(rrData.CorrelationId.ToString(), rrData.CorrelationId.ToString(), new RequestResponseData(data, rrData.CorrelationId));
+                await box.PublishAsync(rrData.CorrelationId.ToString(), rrData.CorrelationId.ToString(), new RequestResponseData(data, rrData.CorrelationId));
             }
             else
             {

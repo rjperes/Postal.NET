@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PostalNET
@@ -26,14 +27,9 @@ namespace PostalNET
             return this.SubscribeWhen(subscriber, null);
         }
 
-        public void Publish(object data)
+        public async Task PublishAsync(object data, CancellationToken cancellationToken = default)
         {
-            this._box.Publish(this._channel, this._topic, data);
-        }
-
-        public async Task PublishAsync(object data)
-        {
-            await this._box.PublishAsync(this._channel, this._topic, data);
+            await this._box.PublishAsync(this._channel, this._topic, data, cancellationToken);
         }
 
         public override string ToString()

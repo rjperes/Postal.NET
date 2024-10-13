@@ -1,18 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <AssemblyName>PostalNET</AssemblyName>
     <RootNamespace>PostalNET</RootNamespace>
     <PackageId>Postal.NET</PackageId>
-    <Version>1.2.0.0</Version>
+    <Version>2.0.0.0</Version>
     <Company>Ricardo Peres</Company>
     <Authors>Ricardo Peres</Authors>
     <Description>Postal.NET is a .NET Standard library for writing decoupled applications</Description>
     <Copyright>Copyright © Ricardo Peres 2017</Copyright>
-    <PackageLicenseUrl>https://github.com/rjperes/Postal.NET/blob/master/lgpl.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/rjperes/Postal.NET</PackageProjectUrl>
-    <PackageIconUrl>https://github.com/rjperes/Postal.NET/blob/master/postal.net.ico?raw=true</PackageIconUrl>
     <RepositoryUrl>https://github.com/rjperes/Postal.NET</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <NeutralLanguage>en</NeutralLanguage>
@@ -20,8 +18,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>netcore,netstandard</PackageTags>
     <Product>Postal.NET</Product>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <FileVersion>1.2.0.0</FileVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
@@ -29,7 +27,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/> 
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" /> 
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

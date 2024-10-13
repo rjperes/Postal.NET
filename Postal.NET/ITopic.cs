@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PostalNET
@@ -24,15 +25,10 @@ namespace PostalNET
         IDisposable Subscribe(Action<Envelope> subscriber);
 
         /// <summary>
-        /// Publishes an event synchronously.
-        /// </summary>
-        /// <param name="data">The event payload.</param>
-        void Publish(object data);
-        /// <summary>
         /// Publishes an event asynchronously.
         /// </summary>
         /// <param name="data">The event payload.</param>
         /// <returns>A promise.</returns>
-        Task PublishAsync(object data);
+        Task PublishAsync(object data, CancellationToken cancellationToken = default);
     }
 }

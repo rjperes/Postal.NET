@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <ApplicationIcon>postal.net.ico</ApplicationIcon>
     <AssemblyName>PostalNET.RX</AssemblyName>
     <RootNamespace>PostalNET.RX</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>PostalRX.NET</PackageId>
     <Product>PostalRX.NET</Product>
-    <Version>1.2.0.0</Version>
+    <Version>2.0.0.0</Version>
     <Authors>Ricardo Peres</Authors>
     <Company>Ricardo Peres</Company>
     <Description>Postal.NET is a .NET Standard library for writing decoupled applications</Description>
@@ -20,8 +20,8 @@
     <RepositoryType>Git</RepositoryType>
     <PackageTags>netcore,netstandard,rx</PackageTags>
     <NeutralLanguage>English</NeutralLanguage>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <FileVersion>1.2.0.0</FileVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
@@ -29,9 +29,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/> 
-    <PackageReference Include="System.Reactive.Core" Version="3.1.1" />
-    <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" /> 
+    <PackageReference Include="System.Reactive.Core" Version="6.0.1" />
+    <PackageReference Include="System.Reactive.Linq" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>

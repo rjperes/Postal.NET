@@ -22,11 +22,7 @@ namespace PostalNET.Test
 
         class DummyBox : IBox
         {
-            public void Publish(string channel, string topic, object data)
-            {
-            }
-
-            public Task PublishAsync(string channel, string topic, object data)
+            public Task PublishAsync(string channel, string topic, object data, CancellationToken cancellationToken = default)
             {
                 return Task.FromResult(0);
             }
@@ -63,33 +59,29 @@ namespace PostalNET.Test
             }
         }
 
-        static void TestHandler()
+        static async Task TestHandler()
         {
-            using (var evt = new ManualResetEvent(false))
+            using var evt = new ManualResetEvent(false);
+            var handler = new DummyHandler(evt);
+
+            using (Postal.Box.AddHandler<string>(handler, "channel", "topic"))
             {
-                var handler = new DummyHandler(evt);
+                await Postal.Box.PublishAsync("channel", "topic", "Hello, World!");
 
-                using (Postal.Box.AddHandler<string>(handler, "channel", "topic"))
-                {
-                    Postal.Box.Publish("channel", "topic", "Hello, World!");
-
-                    evt.WaitOne();
-                }
+                evt.WaitOne();
             }
         }
 
-        static void TestAsyncHandler()
+        static async Task TestAsyncHandler()
         {
-            using (var evt = new ManualResetEvent(false))
+            using var evt = new ManualResetEvent(false);
+            var handler = new DummyHandler(evt);
+
+            using (Postal.Box.AddAsyncHandler<string>(handler, "channel", "topic"))
             {
-                var handler = new DummyHandler(evt);
+                await Postal.Box.PublishAsync("channel", "topic", "Hello, World!");
 
-                using (Postal.Box.AddAsyncHandler<string>(handler, "channel", "topic"))
-                {
-                    Postal.Box.Publish("channel", "topic", "Hello, World!");
-
-                    evt.WaitOne();
-                }
+                evt.WaitOne();
             }
         }
 
@@ -99,11 +91,11 @@ namespace PostalNET.Test
             var isDummy = Postal.Box is DummyBox;
         }
 
-        static void TestOnce()
+        static async Task TestOnce()
         {
             Postal.Box.Once("channel", "topic", (env) => Console.WriteLine(env.Data));
-            Postal.Box.Publish("channel", "topic", "Hello, World!");
-            Postal.Box.Publish("channel", "topic", "Does not appear!");
+            await Postal.Box.PublishAsync("channel", "topic", "Hello, World!");
+            await Postal.Box.PublishAsync("channel", "topic", "Does not appear!");
         }
 
         static void TestRequestResponse()
@@ -121,67 +113,67 @@ namespace PostalNET.Test
             }
         }
 
-        static void TestMultipleSubscriptions()
+        static async Task TestMultipleSubscriptions()
         {
             using (Postal.Box.SubscribeMultiple("channel", "topic1, topic2", (env) => Console.WriteLine(env.Data)))
             {
-                Postal.Box.Publish("channel", "topic1", "Hello, World!");
+                await Postal.Box.PublishAsync("channel", "topic1", "Hello, World!");
             }
 
-            Postal.Box.Publish("channel", "topic1", "Does not appear!");
+            await Postal.Box.PublishAsync("channel", "topic1", "Does not appear!");
         }
 
-        static void TestDifferentSubscriptions()
+        static async Task TestDifferentSubscriptions()
         {
             using (Postal.Box.Subscribe("channel", "topic", (env) => Console.WriteLine("Got: " + env.Data)))
             using (Postal.Box.Subscribe("channel2", "topic2", (env) => Console.WriteLine("Didn't got: " + env.Data)))
             {
-                Postal.Box.Publish("channel", "topic", "Hello, World!");
+                await Postal.Box.PublishAsync("channel", "topic", "Hello, World!");
             }
         }
 
-        static void TestDisposition()
+        static async Task TestDisposition()
         {
             using (Postal.Box.Subscribe("channel", "topic", (env) => Console.WriteLine(env.Data)))
             {
-                Postal.Box.Publish("channel", "topic", "Hello, World!");
+                await Postal.Box.PublishAsync("channel", "topic", "Hello, World!");
             }
 
-            Postal.Box.Publish("channel", "topic", "Does not appear!");
+            await Postal.Box.PublishAsync("channel", "topic", "Does not appear!");
         }
 
-        static void TestCatchAll()
+        static async Task TestCatchAll()
         {
             using (Postal.Box.Subscribe("*", "*", (env) => Console.WriteLine("Catch all!")))
             {
                 using (Postal.Box.Subscribe("channel", "topic", (env) => Console.WriteLine(env.Data)))
                 {
-                    Postal.Box.Publish("channel", "topic", "Hello, World!");
+                    await Postal.Box.PublishAsync("channel", "topic", "Hello, World!");
                 }
             }
         }
 
-        static void TestCatchSome()
+        static async Task TestCatchSome()
         {
             using (Postal.Box.Subscribe("c*", "t*", (env) => Console.WriteLine("Catch some!")))
             {
                 using (Postal.Box.Subscribe("channel", "topic", (env) => Console.WriteLine(env.Data)))
                 {
-                    Postal.Box.Publish("channel", "topic", "Hello, World!");
+                    await Postal.Box.PublishAsync("channel", "topic", "Hello, World!");
                 }
             }
         }
 
-        static void TestFilter()
+        static async Task TestFilter()
         {
             using (Postal.Box.Subscribe("channel", "topic", (env) => Console.WriteLine(env.Data), (env) => env.Data is int))
             {
-                Postal.Box.Publish("channel", "topic", "Does not show!");
-                Postal.Box.Publish("channel", "topic", 12345);
+                await Postal.Box.PublishAsync("channel", "topic", "Does not show!");
+                await Postal.Box.PublishAsync("channel", "topic", 12345);
             }
         }
 
-        static void TestAsync()
+        static async Task TestAsync()
         {
             using (var evt = new ManualResetEvent(false))
             using (Postal.Box.Subscribe("channel", "topic", (env) =>
@@ -190,32 +182,32 @@ namespace PostalNET.Test
                 evt.Set();
             }))
             {
-                Postal.Box.PublishAsync("channel", "topic", "Hello, World!");
+                await Postal.Box.PublishAsync("channel", "topic", "Hello, World!");
 
                 evt.WaitOne();
             }
         }
 
-        static void TestFluent()
+        static async Task TestFluent()
         {
             using (Postal.Box.AnyChannelAndTopic().Subscribe((env) => Console.WriteLine("Catch all!")))
             {
                 using (Postal.Box.Channel("channel").Topic("topic").Subscribe((env) => Console.WriteLine(env.Data)))
                 {
-                    Postal.Box.Channel("channel").Topic("topic").Publish("Hello, World!");
+                    await Postal.Box.Channel("channel").Topic("topic").PublishAsync("Hello, World!");
                 }
             }
         }
 
-        static void TestExtensions()
+        static async Task TestExtensions()
         {
             using (Postal.Box.Subscribe<string>("channel", "topic", data => Console.WriteLine(data)))
             {
-                Postal.Box.Publish("channel", "topic", "Hello, World!");
+                await Postal.Box.PublishAsync("channel", "topic", "Hello, World!");
             }
         }
 
-        static void TestReactive()
+        static async Task TestReactive()
         {
             var observable = Postal.Box.Observe("channel", "topic");
 
@@ -223,12 +215,12 @@ namespace PostalNET.Test
             {
                 using (observable.Subscribe((env) => Console.WriteLine(env.Data), (ex) => { }, () => { }))
                 {
-                    Postal.Box.Publish("channel", "topic", "Hello, World!");
+                    await Postal.Box.PublishAsync("channel", "topic", "Hello, World!");
                 }
             }
         }
 
-        static void TestReactiveBuffered()
+        static async Task TestReactiveBuffered()
         {
             var observable = Postal.Box.Observe("channel", "topic");
 
@@ -236,16 +228,16 @@ namespace PostalNET.Test
             {
                 using (observable.Buffer(5).Subscribe((env) => Console.WriteLine("Got: " + env.Count), (ex) => { }, () => { }))
                 {
-                    Postal.Box.Publish("channel", "topic", "Hello, World 1!");
-                    Postal.Box.Publish("channel", "topic", "Hello, World 2!");
-                    Postal.Box.Publish("channel", "topic", "Hello, World 3!");
-                    Postal.Box.Publish("channel", "topic", "Hello, World 4!");
-                    Postal.Box.Publish("channel", "topic", "Hello, World 5!");
+                    await Postal.Box.PublishAsync("channel", "topic", "Hello, World 1!");
+                    await Postal.Box.PublishAsync("channel", "topic", "Hello, World 2!");
+                    await Postal.Box.PublishAsync("channel", "topic", "Hello, World 3!");
+                    await Postal.Box.PublishAsync("channel", "topic", "Hello, World 4!");
+                    await Postal.Box.PublishAsync("channel", "topic", "Hello, World 5!");
                 }
             }
         }
 
-        static void TestConventions()
+        static async Task TestConventions()
         {
             var conventionsBox = Postal
                 .Box
@@ -255,11 +247,11 @@ namespace PostalNET.Test
 
             using (conventionsBox.Subscribe<string>(x => Console.WriteLine(x)))
             {
-                conventionsBox.Publish<string>("Hello, World!");
+                await conventionsBox.PublishAsync<string>("Hello, World!");
             }
         }
 
-        static void TestComposition()
+        static async Task TestComposition()
         {
             using (Postal
                 .Box
@@ -267,13 +259,13 @@ namespace PostalNET.Test
                 .And("channel2", "topic2")
                 .Subscribe(env => Console.WriteLine(env.Data)))
             {
-                Postal.Box.Publish("channel1", "topic1", "Will not show");
-                Postal.Box.Publish("channel3", "topic3", "Will not show");
-                Postal.Box.Publish("channel2", "topic2", "Hello, World!");
+                await Postal.Box.PublishAsync("channel1", "topic1", "Will not show");
+                await Postal.Box.PublishAsync("channel3", "topic3", "Will not show");
+                await Postal.Box.PublishAsync("channel2", "topic2", "Hello, World!");
             }
         }
 
-        static void TestTimedComposition()
+        static async Task TestTimedComposition()
         {
             using (Postal
                 .Box
@@ -282,15 +274,15 @@ namespace PostalNET.Test
                 .InTime(TimeSpan.FromSeconds(5))
                 .Subscribe(env => Console.WriteLine(env.Data)))
             {
-                Postal.Box.Publish("channel1", "topic1", "Will not show");
+                await Postal.Box.PublishAsync("channel1", "topic1", "Will not show");
 
                 Thread.Sleep(6 * 1000);
 
-                Postal.Box.Publish("channel2", "topic2", "Will not show too");
+                await Postal.Box.PublishAsync("channel2", "topic2", "Will not show too");
             }
         }
 
-        static void TestInterruptedComposition()
+        static async Task TestInterruptedComposition()
         {
             using (Postal
                 .Box
@@ -298,13 +290,13 @@ namespace PostalNET.Test
                 .And("channel2", "topic2")
                 .Subscribe(env => Console.WriteLine(env.Data)))
             {
-                Postal.Box.Publish("channel1", "topic1", "Will not show");
-                Postal.Box.Publish("channel3", "topic3", "Will not show");
-                Postal.Box.Publish("channel2", "topic2", "Will not show");
+                await Postal.Box.PublishAsync("channel1", "topic1", "Will not show");
+                await Postal.Box.PublishAsync("channel3", "topic3", "Will not show");
+                await Postal.Box.PublishAsync("channel2", "topic2", "Will not show");
             }
         }
 
-        static void TestConditionalComposition()
+        static async Task TestConditionalComposition()
         {
             using (Postal
                 .Box
@@ -312,54 +304,52 @@ namespace PostalNET.Test
                 .And("channel2", "topic2")
                 .Subscribe(env => Console.WriteLine(env.Data)))
             {
-                Postal.Box.Publish("channel1", "topic1", 1);
-                Postal.Box.Publish("channel2", "topic2", "Hello, World!");
+                await Postal.Box.PublishAsync("channel1", "topic1", 1);
+                await Postal.Box.PublishAsync("channel2", "topic2", "Hello, World!");
             }
         }
 
-        static void TestInterception()
+        static async Task TestInterception()
         {
-            using (var before = new ManualResetEvent(false))
-            using (var after = new ManualResetEvent(false))
+            using var before = new ManualResetEvent(false);
+            using var after = new ManualResetEvent(false);
+            var box = Postal
+                .Box
+                .InterceptWith(env => { before.Set(); }, env => { after.Set(); });
+
+            using (box.Subscribe("channel", "topic", env => { }))
             {
-                var box = Postal
-                    .Box
-                    .InterceptWith(env => { before.Set(); }, env => { after.Set(); });
+                await box.PublishAsync("channel", "topic", "Hello, World!");
 
-                using (box.Subscribe("channel", "topic", env => { }))
-                {
-                    box.Publish("channel", "topic", "Hello, World!");
-
-                    WaitHandle.WaitAll(new[] { before, after });
-                }
+                WaitHandle.WaitAll([before, after]);
             }
         }
 
-        static void Main()
+        static async Task Main()
         {
             //These are not unit tests, just samples of how to use Postal.NET
             TestFactory();
-            TestHandler();
-            TestAsyncHandler();
-            TestOnce();
+            await TestHandler();
+            await TestAsyncHandler();
+            await TestOnce();
             TestRequestResponse();
-            TestMultipleSubscriptions();
-            TestConditionalComposition();
-            TestInterruptedComposition();
-            TestTimedComposition();
-            TestComposition();
-            TestDifferentSubscriptions();
-            TestExtensions();
-            TestConventions();
-            TestFluent();
-            TestReactive();
-            TestReactiveBuffered();
-            TestAsync();
-            TestFilter();
-            TestDisposition();
-            TestCatchAll();
-            TestCatchSome();
-            TestInterception();
+            await TestMultipleSubscriptions();
+            await TestConditionalComposition();
+            await TestInterruptedComposition();
+            await TestTimedComposition();
+            await TestComposition();
+            await TestDifferentSubscriptions();
+            await TestExtensions();
+            await TestConventions();
+            await TestFluent();
+            await TestReactive();
+            await TestReactiveBuffered();
+            await TestAsync();
+            await TestFilter();
+            await TestDisposition();
+            await TestCatchAll();
+            await TestCatchSome();
+            await TestInterception();
 
             Console.ReadLine();
         }

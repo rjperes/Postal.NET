@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PostalNET
@@ -11,64 +12,38 @@ namespace PostalNET
         {
             get
             {
-                if (this.SubscriberStore is IChannelTopicMatcherProvider)
-                {
-                    return (this.SubscriberStore as IChannelTopicMatcherProvider).Matcher;
-                }
-
-                return null;
+                return this.SubscriberStore is IChannelTopicMatcherProvider ? (this.SubscriberStore as IChannelTopicMatcherProvider).Matcher : null;
             }
-        }
-
-        public void Publish(string channel, string topic, object data)
-        {
-            this
-                .PublishAsync(channel, topic, data)
-                .GetAwaiter()
-                .GetResult();
         }
 
         public IDisposable Subscribe(string channel, string topic, Action<Envelope> subscriber, Func<Envelope, bool> condition = null)
         {
-            this.Validate(channel, topic);
-            this.Validate(subscriber);
+            Validate(channel, topic);
+            Validate(subscriber);
 
-            if (condition == null)
-            {
-                condition = (env) => true;
-            }
+            condition ??= (env) => true;
 
             return this.SubscriberStore.Subscribe(channel, topic, subscriber, condition);
         }
 
-        public async Task PublishAsync(string channel, string topic, object data)
+        public async Task PublishAsync(string channel, string topic, object data, CancellationToken cancellationToken = default)
         {
-            this.Validate(channel, topic);
+            Validate(channel, topic);
 
             var env = this.SubscriberStore.CreateEnvelope(channel, topic, data);
 
-            await this.SubscriberStore.PublishAsync(env);
+            await this.SubscriberStore.PublishAsync(env, cancellationToken);
         }
 
-        private void Validate(string channel, string topic)
+        private static void Validate(string channel, string topic)
         {
-            if (string.IsNullOrWhiteSpace(channel) == true)
-            {
-                throw new ArgumentNullException(nameof(channel));
-            }
-
-            if (string.IsNullOrWhiteSpace(topic) == true)
-            {
-                throw new ArgumentNullException(nameof(topic));
-            }
+            ArgumentException.ThrowIfNullOrWhiteSpace(channel, nameof(channel));
+            ArgumentException.ThrowIfNullOrWhiteSpace(topic, nameof(topic));          
         }
 
-        private void Validate(Action<Envelope> subscriber)
+        private static void Validate(Action<Envelope> subscriber)
         {
-            if (subscriber == null)
-            {
-                throw new ArgumentNullException(nameof(subscriber));
-            }
+            ArgumentNullException.ThrowIfNull(subscriber, nameof(subscriber));
         }
     }
 }

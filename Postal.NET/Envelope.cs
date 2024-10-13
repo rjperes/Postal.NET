@@ -9,6 +9,8 @@ namespace PostalNET
     {
         public Envelope(string channel, string topic, object data)
         {
+            ArgumentException.ThrowIfNullOrWhiteSpace(channel, nameof(channel));
+            ArgumentException.ThrowIfNullOrWhiteSpace(topic, nameof(topic));
             this.Timestamp = DateTime.UtcNow;
             this.Channel = channel;
             this.Topic = topic;
@@ -18,18 +20,18 @@ namespace PostalNET
         /// <summary>
         /// The event timestamp.
         /// </summary>
-        public DateTime Timestamp { get; private set; }
+        public DateTime Timestamp { get; }
         /// <summary>
         /// The event channel.
         /// </summary>
-        public string Channel { get; private set; }
+        public string Channel { get; }
         /// <summary>
         /// The event topic.
         /// </summary>
-        public string Topic { get; private set; }
+        public string Topic { get; }
         /// <summary>
         /// The event payload.
         /// </summary>
-        public object Data { get; private set; }
+        public object Data { get; }
     }
 }

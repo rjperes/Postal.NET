@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PostalNET
@@ -28,13 +29,7 @@ namespace PostalNET
         /// </summary>
         /// <param name="envelope">The event envelope.</param>
         /// <returns>A promise.</returns>
-        Task PublishAsync(Envelope envelope);
-
-        /// <summary>
-        /// Publishes an event synchronously.
-        /// </summary>
-        /// <param name="envelope">The event envelope.</param>
-        void Publish(Envelope envelope);
+        Task PublishAsync(Envelope envelope, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Creates an event envelope.

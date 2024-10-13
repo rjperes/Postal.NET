@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PostalNET
@@ -9,20 +9,27 @@ namespace PostalNET
     {
         public static readonly IPublisher Instance = new AsyncPublisher();
 
-        public void Publish(IEnumerable<Action<Envelope>> destinations, Envelope envelope)
+        public async Task PublishAsync(IEnumerable<Action<Envelope>> destinations, Envelope envelope, CancellationToken cancellationToken = default)
         {
-            this
-                .PublishAsync(destinations, envelope)
-                .GetAwaiter()
-                .GetResult();
-        }
+            var task = Task.CompletedTask;
 
-        public async Task PublishAsync(IEnumerable<Action<Envelope>> destinations, Envelope envelope)
-        {
-            foreach (var subscriber in destinations.AsParallel())
+            foreach (var subscriber in destinations)
             {
-                await Task.Run(() => subscriber(envelope));
+                task = task.ContinueWith((_, state) =>
+                {
+                    if (state is CancellationToken ct)
+                    {
+                        if (ct.IsCancellationRequested)
+                        {
+                            return;
+                        }
+                    }
+
+                    subscriber(envelope);
+                }, cancellationToken, cancellationToken);
             }
+
+            await task;
         }
     }
 }
