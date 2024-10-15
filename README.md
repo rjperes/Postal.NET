@@ -1,9 +1,9 @@
 # Postal.NET
 
 ## Introduction
-Postal.NET is a .NET Standard library for writing decoupled applications. It is loosely based upon the [Postal.js](https://github.com/postaljs) JavaScript library and follows the [Domain Events](http://martinfowler.com/eaaDev/DomainEvent.html) and [Pub/Sub](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) patterns.
+Postal.NET is a .NET Standard library for writing decoupled applications. It is loosely based upon the [Postal.js](https://github.com/postaljs) JavaScript library and follows somewhat the [Domain Events](http://martinfowler.com/eaaDev/DomainEvent.html) and [Pub/Sub](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) patterns.
 It was written by [Ricardo Peres](https://github.com/rjperes) ([@rjperes75](https://twitter.com/rjperes75)).
-As of version 1.1 it now targets .NET Standard 2.0.
+As of version 2 it now targets .NET 8.
 
 ## Concepts
 Postal.NET uses the concepts of **channels** and **topics**. We subscribe to a topic of a channel, and we send messages to other (or possibly the same) channels and topics. The **"\*"** character means anything, so, for example, **"a.b"** and **"a.\*"** or even **"\*"** will match. There can be several simultaneous subscriptions, even to the same channel/topic pair. Postal.NET guarantees the delivery.
@@ -12,18 +12,15 @@ Postal.NET uses the concepts of **channels** and **topics**. We subscribe to a t
 
     //create a subscription to a single named channel and topic pair
     using (Postal.Box.Subscribe("channel", "topic", (env) => Console.WriteLine(env.Data)))
-    {
-        //publish synchronously (will block)
-        Postal.Box.Publish("channel", "topic", "Hello, World!");
-
+    {        
         //publish asynchronously (does not block)
         await Postal.Box.PublishAsync("channel", "topic", "Hello, Async World!");
     }
 
     //no consequences, since the subscription was terminated
-    Postal.Box.Publish("channel", "topic", "Does not appear because the subscription was disposed!");
+    await Postal.Box.PublishAsync("channel", "topic", "Does not appear because the subscription was disposed!");
 
-A message can either be sent synchronously or asynchronously and if there are subscribers to it, it will raise an event (one or more subscriptions being triggered). Subscriptions do not prevent the garbage collection of the subscriber. Messages are always wrapped in an envelope.
+A message can only be sent asynchronously and if there are subscribers to it, it will raise an event (one or more subscriptions being triggered). Subscriptions do not prevent the garbage collection of the subscriber. Messages are always wrapped in an envelope.
 There are some handy extensions for common tasks:
 
 - **Once**: only handles an event once, then unsubcribes from it
@@ -31,7 +28,7 @@ There are some handy extensions for common tasks:
 - **SubscribeMulti**: subscribes to one or more channels, separated by commas, at a time
 - **Subscribe\<T\>**: subscribes to an event where its payload is of a given type
 
-The public interface is decoupled from the actual implementation and it can be easily switched.
+The public interface is decoupled from the actual implementation and it can be switched (but don't do it!).
 
 You can find more examples in the [GitHub repository](https://github.com/rjperes/Postal.NET) in the **Postal.NET.Test** project.
 
